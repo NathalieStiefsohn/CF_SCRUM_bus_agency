@@ -3,19 +3,18 @@
 $query_current_scheduled_depurtures = 
     "
         SELECT 
-            date_format(date(schedule.departure),'%a %d %M %Y') AS departure_date,
-            date_format(date(schedule.departure),'%H %i') AS departure_time,   
-            route.destination AS destination,
-        FROM `schedule`
-            INNER JOIN `payment` on user.id = payment.user_id
-            INNER JOIN `booking` on payment.id = booking.payment_id
-            INNER JOIN `reservation` on booking.id = reservation.booking_id
-            INNER JOIN `seat` on reservation.seat_id = seat.id
-            INNER JOIN `schedule` on booking.schedule_id = schedule.id
-            INNER JOIN `route` on schedule.route_id = route.id
-        WHERE 
-            user.id =" . $_SESSION['user'] . "
-            AND date(schedule.departure) < date_format(date(now()),'%y-%m-%d');
+            route.destination,
+            date_format(date(schedule.departure),'%a %d %M %Y')
+        FROM 
+            `route`;
+
+            `schedule`
+                INNER JOIN `payment` on user.id = payment.user_id
+                INNER JOIN `booking` on payment.id = booking.payment_id
+                INNER JOIN `reservation` on booking.id = reservation.booking_id
+                INNER JOIN `seat` on reservation.seat_id = seat.id
+                INNER JOIN `schedule` on booking.schedule_id = schedule.id
+                INNER JOIN `route` on schedule.route_id = route.id;
     ";
 
 // Report:  Number of availble seats
@@ -27,6 +26,9 @@ FROM `reservation`
 GROUP BY 
     schedule.id;
 
+
+           
+            date_format(date(schedule.departure),'%H %i') AS departure_time,  
 
     INNER JOIN `payment` on user.id = payment.user_id
     INNER JOIN `booking` on payment.id = booking.payment_id
