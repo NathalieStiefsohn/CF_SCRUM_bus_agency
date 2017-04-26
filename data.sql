@@ -66,28 +66,38 @@ INSERT INTO
         (30, 10, '2017-06-01 01:00:00 PM', '2017-06-01 03:00:00 PM');
 
 
-
 --
--- Dumping data for table `reservation`
+-- Dumping data for table `payment`
 --
 
-INSERT INTO 
-    `reservation`
-        (`id`, `booking_id`, `seat_id`)
-    VALUES 
-        (1, 1, 1),
-        (2, 1, 2),
-        (3, 1, 3),
-        (4, 2, 1);
+INSERT INTO
+    `payment`
+    (user_id, iban)
+VALUES
+    (1, 'test');
 
 --
 -- Dumping data for table `booking`
 --
 
-INSERT INTO 
-    `booking` 
-        (`id`, `route_id`, `departure`, `eta`)
-    VALUES 
-        (1, 1, '2017-04-01 10:00:00 AM', '2017-04-01 11:00:00 AM'),
+INSERT INTO
+    `booking`
+    (`id`, `stamp`, `payment_id`, `schedule_id`)
+VALUES
+    (1, NOW(), 1, 1),
+    (2, NOW(), 1, 2);
 
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO
+`reservation`
+(`id`, `booking_id`, `seat_id`)
+VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 2, 1);
 
