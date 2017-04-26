@@ -107,9 +107,11 @@ require_once('includes/promo.php');
 					<div class="col-xs-12">
 						<h3 class="brandfont text-center color_bc1">
 							My Current Reservations 
-							<!-- <?php
-							echo '<label class="label label-default">'.$count_current_user_reservations.'</label>'
-							;?> -->
+							<?php
+							echo'
+								<label class="label background_bc1 color_bc3">'.$count_current_user_reservations.'</label>
+							';
+							?>
 
 						</h3>
 						<hr class="border_bc1 ">	
@@ -164,6 +166,11 @@ require_once('includes/promo.php');
 					<div class="col-xs-12">
 						<h3 class="brandfont text-center color_bc1">
 							My Historic Reservations
+							<?php
+							echo'
+								<label class="label background_bc1 color_bc3">'.$count_historic_user_reservations.'</label>
+							';
+							?>
 						</h3>
 						<hr class="border_bc1 ">	
 					</div>

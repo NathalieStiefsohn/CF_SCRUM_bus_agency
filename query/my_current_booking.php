@@ -26,5 +26,5 @@ $query_current_user_reservations =
 
 $res_current_user_reservations = mysqli_query($con, $query_current_user_reservations);
 // $row_current_user_reservations = mysqli_fetch_array($res_current_user_reservations);
-// $count_current_user_reservations = mysqli_num_rows($res_current_user_reservations);
+$count_current_user_reservations = mysqli_num_rows($res_current_user_reservations);
 ?>

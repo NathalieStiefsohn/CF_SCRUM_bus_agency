@@ -25,6 +25,6 @@ $query_historic_user_reservations =
     ";
 
 $res_historic_user_reservations = mysqli_query($con, $query_historic_user_reservations);
-$row_historic_user_reservations = mysqli_fetch_array($res_historic_user_reservations);
+// $row_historic_user_reservations = mysqli_fetch_array($res_historic_user_reservations);
 $count_historic_user_reservations = mysqli_num_rows($res_historic_user_reservations);
 ?>

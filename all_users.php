@@ -2,7 +2,63 @@
 require_once('includes/start_session_admin.php');
 ?>
 <?php
+	$errTyp="";
+	$errMSG="";
+	$hidden="";
+	$count_all_users = "";
+	$count_users = "";
+	require'query/all_users_query.php';
+?>
+<?php
+	if(isset($_GET['user_id'])){
+		$user_id = $_GET['user_id'];
+		if (!empty($user_id)) {
 
+			$query_add_admin = "INSERT INTO admin (user_id) VALUES($user_id)";
+					$res_add_admin = mysqli_query($con, $query_add_admin);
+			
+			if ($res_add_admin) {
+				$errTyp = "alert alert-success";
+				$errMSG = "You successfully added a new admin!";
+				$hidden="hidden";
+				// echo $errMSG;
+				unset($user_id);
+			} else {
+				$errTyp = "alert alert-danger";
+				$errMSG = "Something went wrong, try again later...";
+				// echo $errMSG;
+			}
+		}
+	}
+	
+?>
+<?php
+	if(isset($_GET['remove_rights_user_id'])){
+		$user_id = $_GET['remove_rights_user_id'];
+		if (!empty($user_id)) {
+			if($user_id==$_SESSION['user']){
+				$errTyp = "alert alert-danger";
+				$errMSG = "You cannot remove your own admin rights!";
+				$hidden="hidden";
+			}else {
+				$query_delete_admin = "DELETE FROM admin WHERE user_id=".$user_id;
+						$res_delete_admin = mysqli_query($con, $query_delete_admin);
+				
+				if ($res_delete_admin) {
+					$errTyp = "alert alert-success";
+					$errMSG = "Admin rights were successfully removed!";
+					$hidden="hidden";
+					// echo $errMSG;
+					unset($user_id);
+				} else {
+					$errTyp = "alert alert-danger";
+					$errMSG = "Something went wrong, try again later...";
+					// echo $errMSG;
+				}
+			}
+		}
+	}
+	
 ?>
 <!DOCTYPE html>
 <html>
@@ -51,10 +107,151 @@ require_once('includes/head_tag.php');
 				<div class="col-xs-12">
 					<h3 class="brandfont text-center color_bc1">
 						All Users
+					
+					<?php
+						if(isset($_GET['search'])){
+							echo'
+								<label class="label background_bc1 color_bc3">'.$count_users.'</label>
+							';
+						} else {
+							echo'
+								<label class="label background_bc1 color_bc3">'.$count_all_users.'</label>
+							';
+						}
+
+					?>
 					</h3>
 					<hr class="border_bc1 ">	
 				</div>
-				<!-- add data here -->
+				
+
+
+		<?php
+require_once('includes/alert_box.php');
+		?>
+
+			<div class="<?php echo $hidden; ?>">
+
+<?php
+require_once('includes/search_bar.php');
+		?>
+
+		
+		<div class="col-xs-12">
+			<table class="table" id="all_users_table">
+				<thead>
+			      <tr>
+			        <th>Title</th>
+			        <th>First Name</th>
+			        <th>Last Name</th>
+			        <th>E-Mail</th>
+			        <th>Tel Nr</th>
+			        <th>IBAN</th>
+			        <th class="text-center">Admin-Rights</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			<?php 			
+				 // select all available users
+				 
+				if ( isset($_GET['btn-search']) ){
+					$search = trim($_GET['search']);
+			 		$search = strip_tags($search);
+			  		$search = htmlspecialchars($search);
+					
+			  		require 'query/search_users_query.php';
+
+					if ($count_users == 1){
+						echo "<h4 class='text-center'>We found ".$count_users." result for '".$search."'.</h4> <hr>";
+					} else if ($count_users == 0) {
+					echo '<div class="alert alert-danger">
+							<h4 class="text-center">Unfortunately there are no results for "'.$search.'". <br></h4> 
+						</div><hr>';
+					} else {
+						echo "<h4 class='text-center'>We found ".$count_users." results for '".$search."'.</h4> <hr>";
+					}
+					$i = 0;
+			  		while($row_users = mysqli_fetch_array($res_users)){
+				  		$title = $row_users['title'];
+				  		$first_name = $row_users['first_name'];
+				  		$family_name = $row_users['last_name'];
+				  		$email = $row_users['email'];
+				  		$iban = $row_users['iban'];
+				  		$tel = $row_users['tel'];
+				  		$admin_id = $row_users['admin_id'];
+				  		$user_id = $row_users['user_id'];
+				  		
+				  	
+				  		echo 	'<tr> 
+									<td>'.$title.'</td>
+									<td>'.$first_name.'</td>
+									<td>'.$family_name.'</td>
+									<td>'.$email.'</td>
+									<td>'.$tel.'</td>
+									<td>'.$iban.'</td>
+									<td class="text-center">';
+
+						if (empty($admin_id)) {
+							echo '<form method="post" action="all_users.php?user_id='.$user_id.'">
+											<input type="submit" class="btn btn-success" value="Give" id="btn-give_admin_rights" name="btn-give_admin_rights">
+										</form>
+						  	';
+						} else {
+							echo '<form method="post" action="all_users.php?remove_rights_user_id='.$user_id.'">
+									<input type="submit" class="btn btn-primary background_bc1" value="Remove" id="btn-remove_admin_rights" name="btn-remove_admin_rights">
+								</form>
+						  	';
+						}
+						echo '</td>
+								</tr>';
+			  		}
+				} else {
+
+					
+
+					
+			  		while($row_all_users = mysqli_fetch_array($res_all_users)){
+				  		$title = $row_all_users['title'];
+				  		$first_name = $row_all_users['first_name'];
+				  		$family_name = $row_all_users['last_name'];
+				  		$email = $row_all_users['email'];
+				  		$tel = $row_all_users['tel'];
+				  		$iban = $row_all_users['iban'];
+				  		$admin_id = $row_all_users['admin_id'];
+				  		$user_id = $row_all_users['user_id'];
+				  		
+				  		echo 	'<tr> 
+									<td>'.$title.'</td>
+									<td>'.$first_name.'</td>
+									<td>'.$family_name.'</td>
+									<td>'.$email.'</td>
+									<td>'.$tel.'</td>
+									<td>'.$iban.'</td>
+									<td class="text-center">';
+
+						if (empty($admin_id)) {
+							echo '<form method="post" action="all_users.php?user_id='.$user_id.'">
+											<input type="submit" class="btn btn-success" value="Give" id="btn-give_admin_rights" name="btn-give_admin_rights">
+										</form>
+						  	';
+						} else {
+							echo '<form method="post" action="all_users.php?remove_rights_user_id='.$user_id.'">
+									<input type="submit" class="btn btn-primary background_bc1" value="Remove" id="btn-remove_admin_rights" name="btn-remove_admin_rights">
+								</form>
+						  	';
+						}
+						echo '</td>
+								</tr>';
+			  		}
+  				}
+	  				
+			?>
+				</tbody>
+			</table>
+		</div>
+<!-- below is the div which closes the $hidden wrappen -->
+</div>
+
 			</section>
 		</div>
 	</div>
