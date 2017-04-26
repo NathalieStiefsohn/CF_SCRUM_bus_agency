@@ -72,9 +72,9 @@ INSERT INTO
 
 INSERT INTO
     `payment`
-    (user_id, iban)
-VALUES
-    (1, 'test');
+        (`user_id`, `iban`)
+    VALUES
+        (1, 'AT123456789');
 
 --
 -- Dumping data for table `booking`
@@ -82,9 +82,8 @@ VALUES
 
 INSERT INTO
     `booking`
-    (`id`, `stamp`, `payment_id`, `schedule_id`)
-VALUES
-
+        (`id`, `stamp`, `payment_id`, `schedule_id`)
+    VALUES
         (1, '2017-03-01 10:28:00', 1, 30),
         (2, '2017-03-01 23:37:00', 1, 20),
         (3, '2017-03-11 10:40:00', 1, 1),
@@ -96,19 +95,19 @@ VALUES
         (9, '2017-04-14 23:20:00', 1, 3),
         (10, '2017-04-21 10:00:00', 1, 14),
         (11, '2017-04-21 22:47:00', 1, 11),
-        (12, '2017-04-21 10:00:00', 1, 7);
-    (13, NOW(), 1, 1),
-    (14, NOW(), 1, 2);
+        (12, '2017-04-21 10:00:00', 1, 7),
+        (13, NOW(), 1, 1),
+        (14, NOW(), 1, 2);
 
 --
 -- Dumping data for table `reservation`
 --
 
 INSERT INTO
-`reservation`
-(`id`, `booking_id`, `seat_id`)
-VALUES
-       (1, 1, 11),
+    `reservation`
+        (`id`, `booking_id`, `seat_id`)
+    VALUES
+        (1, 1, 11),
         (2, 1, 12),
         (3, 1, 3),
         (4, 2, 39),

@@ -1,5 +1,5 @@
 <?php
-// Report:  List all scheduled departures
+// Report:  List current scheduled departures
 $query_current_scheduled_depurtures = 
     "
         SELECT 
