@@ -29,7 +29,7 @@ function createSeatGrid(targetDOM, rowCount, columnCount, vertical) {
 function createBookingButton(row, column, booked) {
     var targetDOM = $('#seat-'+row+'-'+column);
     targetDOM.empty();
-    var buttonDOM = $('<img class="seat-image rotateimg90 " src="./pictures/seat.svg">');
+    var buttonDOM = $('<img class="seat-image rotateimg270 " src="./pictures/seat.svg">');
     if (booked) {
         buttonDOM.attr('disabled', true);
         buttonDOM.attr('src', "./pictures/seat_company_purple.svg");
@@ -55,6 +55,7 @@ function bookSeat(row, column) {
 function updateSeats() {
     $.getJSON('get_seats.php', function (bus) {
         createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, true);
+        console.log('There are '+bus.seats.length+' seats in this bus.');
         bus.seats.forEach(function (seat) {
             createBookingButton(seat.col, seat.row, seat.booked);
         })

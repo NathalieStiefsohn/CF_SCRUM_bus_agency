@@ -100,7 +100,7 @@ function addBusLayout($modelId, $seatData)
     foreach ($seatData as $rowNum => $seatRow) {
         foreach ($seatRow as $colNum => $seatDiscountId) {
             if ($seatDiscountId >= 1) {
-                addSeat($modelId, $seatNum, $rowNum, $colNum, $seatDiscountId);
+                addSeat($modelId, $seatNum, $rowNum+1, $colNum+1, $seatDiscountId);
                 echo "";
                 $seatNum++;
             }
@@ -119,16 +119,19 @@ global $codeBusLayout56;
 
 
 
-$codeBus56 = addBusModel(56, 15, 6);
-addBusLayout($codeBusLayout56, $codeBusLayout56);
-addBus($codeBus56);
-addBus($codeBus56);
-addBus($codeBus56);
+$codeBus56Id = addBusModel(56, 15, 6);
+addBusLayout($codeBus56Id, $codeBusLayout56);
+error_log("busId: $codeBus56Id");
+addBus($codeBus56Id);
+addBus($codeBus56Id);
+addBus($codeBus56Id);
 
-$codeBus42 = addBusModel(42, 11, 6);
-addBusLayout($codeBusLayout42, $codeBusLayout42);
-addBus($codeBus42);
+$codeBus42Id = addBusModel(42, 11, 6);
+error_log("busId: $codeBus42Id");
+addBusLayout($codeBus42Id, $codeBusLayout42);
+addBus($codeBus42Id);
 
-$codeBus12 = addBusModel(12, 6, 3);
-addBusLayout($codeBusLayout12, $codeBusLayout12);
-addBus($codeBus12);
+$codeBus12Id = addBusModel(12, 6, 3);
+error_log("busId: $codeBus42Id");
+addBusLayout($codeBus12Id, $codeBusLayout12);
+addBus($codeBus12Id);
