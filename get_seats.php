@@ -4,7 +4,7 @@ require_once 'dbconnect.php';
 header('Content-type: application/json');
 
 
-$destination = 'Salzburg';
+$destination = 'Vienna-Bratislava';
 $scheduleID = 1;
 /*
 $availabilityQuery = $con->prepare(<<<'SQL'
@@ -35,14 +35,28 @@ $busQuery->execute();
 $busData = $busQuery->get_result()->fetch_assoc();
 
 $seatDataQuery = $con->prepare(<<<'SQL'
-SELECT sea.id, sea.num as number, row, col, res.id IS NOT NULL AS booked FROM seat AS sea
+SELECT sea.num AS number, row, col, res.id IS NOT NULL AS booked FROM schedule AS sch
+INNER JOIN route AS rou ON sch.route_id = rou.id
+INNER JOIN bus AS bu ON rou.bus_id = bu.id
+INNER JOIN model AS mo ON bu.model_id = mo.id
+INNER JOIN seat AS sea ON mo.id = sea.model_id
 LEFT JOIN reservation AS res ON sea.id = res.seat_id
-LEFT JOIN discount AS dis ON sea.discount_id = dis.id
-INNER JOIN model AS mo ON sea.model_id = mo.id
-INNER JOIN bus AS bu ON mo.id = bu.model_id
-INNER JOIN route AS rou ON bu.id = rou.bus_id
-INNER JOIN schedule AS sch ON rou.id = sch.route_id
 WHERE rou.destination = ? AND sch.id = ?
+;
+SQL
+);
+
+$addReservationQuery = $con->prepare(<<<'SQL'
+INSERT INTO reservation (booking_id, seat_id) VALUES (?, ?);
+SQL
+);
+$addBookingQuery = $con->prepare(<<<'SQL'
+INSERT INTO booking (stamp, payment_id, schedule_id) VALUES (NOW(), ?, ?);
+SQL
+);
+
+$addPaymentQuery = $con->prepare(<<<'SQL'
+INSERT INTO payment (user_id, iban) VALUES (?, ?);
 SQL
 );
 
