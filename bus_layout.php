@@ -85,10 +85,10 @@ function addSeat($modelId, $seatNum, $row, $col, $discountId) {
 }
 
 function addBus($modelId) {
-    global $createSeatQuery;
+    global $createBusQuery;
     global $con;
-    $createSeatQuery->bind_param('i', $modelId);
-    $createSeatQuery->execute();
+    $createBusQuery->bind_param('i', $modelId);
+    $createBusQuery->execute();
     $id = $con->insert_id;
     checkAndPrintSQLError("<p>added bus id: $id, model $modelId</p>");
     return $id;
