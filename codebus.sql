@@ -57,8 +57,8 @@ CREATE TABLE `booking` (
   `id` int(15) NOT NULL,
   `stamp` datetime NOT NULL,
   `payment_id` int(15) NOT NULL,
-  `schedule_id` int(15) NOT NULL,#
-  `canceled` datetime,
+  `schedule_id` int(15) NOT NULL,
+  `canceled` datetime
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -71,7 +71,7 @@ CREATE TABLE `reservation` (
   `id` int(15) NOT NULL,
   `booking_id` int(15) NOT NULL,
   `seat_id` int(15) NOT NULL,
-  `canceled` datetime,
+  `canceled` datetime
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
