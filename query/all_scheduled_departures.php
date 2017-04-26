@@ -20,12 +20,12 @@ $query_current_scheduled_depurtures =
 
 // Report:  Number of availble seats
 SELECT 
-    count(seat.num)
-FROM `seat`
-    INNER JOIN `reservation` on seat.id = reservation.seat_id
-WHERE 
-    user.id =" . $_SESSION['user'] . "
-    AND date(schedule.departure) < date_format(date(now()),'%y-%m-%d');
+    count(reservation.id) 
+FROM `reservation`
+    INNER JOIN `booking` on booking.id = reservation.booking_id
+    INNER JOIN `schedule` on schedule.id = booking.schedule_id
+GROUP BY 
+    schedule.id;
 
 
     INNER JOIN `payment` on user.id = payment.user_id
