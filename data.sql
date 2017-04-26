@@ -1,16 +1,4 @@
 --
--- Dumping data for table `model`
---
-
-INSERT INTO 
-    `model` 
-        (`id`, `seats`, `rows`, `columns`) 
-    VALUES
-        (1, 56, 14, 4),
-        (2, 42, 14, 3),
-        (3, 12, 4, 3);
-
---
 -- Dumping data for table `route`
 --
 
