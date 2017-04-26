@@ -23,6 +23,7 @@
  $emailError ="";
  $passError ="";
  $titlenameError ="";
+ $hidden="";
 
  $telephoneError ="";
  $yearError ="";
@@ -197,7 +198,8 @@
    
    if ($res_user AND $res_payment) {
     $errTyp = "alert-success";
-    $errMSG = "Successfully registered, you may login now! <a href='index.php'><button type='button'  class='btn btn-success'>Log in</button></a>";
+    $errMSG = "Successfully registered, you may login now! <a class='margin-left' href='index.php'><button type='button'  class='btn btn-success'>Log in</button></a>";
+    $hidden ="hidden";
     // echo $errMSG;
     // unset($username);
     unset($email);
@@ -241,7 +243,7 @@ require_once('includes/head_tag.php');
   </header>
       <div class="row">
       <div class="col-xs-12">
-        <form method="post" action="register.php" autocomplete="off">
+        
           <h2 class="color_bc1">Sign Up</h2>
           <hr />
           <?php
@@ -250,6 +252,7 @@ require_once('includes/head_tag.php');
             }
           ?>
       </div>
+      <form method="post" class="<?php echo $hidden; ?>" action="register.php" autocomplete="off">
       <!-- first_row -->
       <div class="col-xs-12 col-md-6">
             <!-- USERNAME -->

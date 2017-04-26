@@ -3,11 +3,83 @@ require_once('includes/start_session_admin.php');
 ?>
 <?php
 
+$hidden ="";
+$date="";
+$errTyp = "";
+$errMSG = "";
+
+
+// add promo_day
+if ( isset($_POST['btn-add_promo_day']) ) {
+	$date=$_POST['date'];
+
+	$query_search_promo_day = "SELECT  * from holiday WHERE event= STR_TO_DATE('$date', '%m/%d/%Y')";
+	$res_search_promo_day = mysqli_query($con, $query_search_promo_day);
+
+	$count_search_promo_day = mysqli_num_rows($res_search_promo_day);
+	if($count_search_promo_day != 0){
+		$errTyp = "alert-info";
+		$errMSG = "This promo day is already in your system. It was not added again.";
+		$hidden ="hidden";
+	} else {
+
+
+		$query_promo_day = "INSERT INTO holiday (event) VALUES (STR_TO_DATE('$date', '%m/%d/%Y'))";
+		$res_promo_day = mysqli_query($con, $query_promo_day);
+
+		if ($res_promo_day) {
+		    $errTyp = "alert-success";
+		    $errMSG = "The promo day was successfully added to the database!";
+		    $hidden ="hidden";
+
+		} else {
+			$errTyp = "alert-danger";
+			$errMSG = "Something went wrong, try again later...";
+			// echo $errMSG;
+		}
+	}
+
+}
+
+// delete promo_day
+if ( isset($_POST['btn-delete_promo_day']) ) {
+	$date=$_POST['date'];
+
+	$query_search_promo_day_delete = "SELECT  id from holiday WHERE event= STR_TO_DATE('$date', '%m/%d/%Y')";
+	$res_search_promo_day_delete = mysqli_query($con, $query_search_promo_day_delete);
+	$row_search_promo_day_delete = mysqli_fetch_array($res_search_promo_day_delete);
+	$promo_day_id = $row_search_promo_day_delete['id'];
+	$count_search_promo_day_delete = mysqli_num_rows($res_search_promo_day_delete);
+
+	if($count_search_promo_day_delete == 0 OR empty($date)){
+		$errTyp = "alert-info";
+		$errMSG = "This promo day does not exist in your system yet. No need to delete it!";
+		$hidden ="hidden";
+	} else {
+
+		$query_promo_day_delete2 = "DELETE FROM holiday where holiday.id=".$promo_day_id;
+		$res_promo_day_delete2 = mysqli_query($con, $query_promo_day_delete2);
+
+		if ($res_promo_day_delete2) {
+		    $errTyp = "alert-success";
+		    $errMSG = "The promo day was successfully deleted from the database!";
+		    $hidden ="hidden";
+
+		} else {
+			$errTyp = "alert-danger";
+			$errMSG = "Something went wrong, try again later...";
+			// echo $errMSG;
+		}
+	}
+
+}
+
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Add Holidays - Admin</title>
+	<title>Manage promo days - Admin</title>
 	<?php
 require_once('includes/head_tag.php');
 	?>
@@ -23,7 +95,6 @@ require_once('includes/head_tag.php');
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <!-- <a class="navbar-brand" href="#">Brand</a> -->
 
 	    </div>
 	    <div class="collapse navbar-collapse">
@@ -31,10 +102,11 @@ require_once('includes/head_tag.php');
 	        <li><a href="home_admin.php">Risky Rides</a></li>
 	        <li><a href="all_rides.php">All Rides</a></li>
 	        <li><a href="all_users.php">All Users</a></li>
-	        <li class="active"><a href="add_holidays.php">Add holidays</a></li>
+	        <li class="active"><a href="add_holidays.php">Manage Promo Days</a></li>
 	      </ul>
 
-	    </div><!--/.nav-collapse -->
+	    </div>
+	    <!--/.nav-collapse -->
 			        	<?php
 	require_once('includes/switch_admin_view.php');
 		?>
@@ -50,11 +122,24 @@ require_once('includes/head_tag.php');
 			<section class="row">
 				<div class="col-xs-12">
 					<h3 class="brandfont text-center color_bc1">
-						Add Holidays
+						Manage Promo Days
 					</h3>
 					<hr class="border_bc1 ">	
 				</div>
-				<!-- add data here -->
+	<?php
+        if ( isset($_POST['btn-add_promo_day']) || isset($_POST['btn-delete_promo_day']) ) {
+          require_once('includes/alert_box.php');
+        }
+    ?>
+				<form class="col-xs-12  <?php echo $hidden; ?> text-center margin-top" method="POST" >
+					<label for="date">
+					<input class="form-control text-center" type="text" name="date" id="date">
+					<!-- <input type="text" name="username" id="to" name="to"> -->
+					<input type="submit" name="btn-add_promo_day" id="btn-add_promo_day" class="margin-top btn background_bc1 color_bc3" value="Add Promo Day">
+					<input type="submit" name="btn-delete_promo_day" id="btn-delete_promo_day" class="margin-top btn background_bc2 color_bc3" value="Delete Promo Day">
+						
+				</form>
+
 			</section>
 		</div>
 	</div>
@@ -65,7 +150,11 @@ require_once('includes/head_tag.php');
 	<?php
 require_once('includes/footer.php');
 	?>
-	 
+	<script>
+	  $( function() {
+	    $( "#date" ).datepicker();
+	  } );
+  </script>
 </body>
 </html>
 <?php ob_end_flush(); ?>

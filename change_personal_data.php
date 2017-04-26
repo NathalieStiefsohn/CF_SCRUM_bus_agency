@@ -18,6 +18,7 @@ $error = 0;
  $ibanError ="";
  $errTyp="";
  $errMSG="";
+ $hidden ="";
 
 
  if ( isset($_POST['btn-change_data']) ) {
@@ -209,6 +210,7 @@ $error = 0;
 		   if ($res_user AND $res_payment) {
 		    $errTyp = "alert-success";
 		    $errMSG = "Your Data was successfully changed!";
+        $hidden ="hidden";
 		    // echo $errMSG;
 		    // unset($username);
 		    unset($email);
@@ -276,6 +278,9 @@ require_once('includes/header.php');
 
 	<!-- main -->
 	<section class="row">
+      <?php
+require_once('includes/promo.php');
+    ?>
 	<div class="col-xs-12">
 	<div class="row">
 
@@ -286,7 +291,7 @@ require_once('includes/header.php');
 		<hr class="border_bc1 ">	
 	</div>
 
-	<form method="post" autocomplete="off">
+	
 
 	 <?php
             if ( isset($_POST['btn-change_data']) ) {
@@ -294,6 +299,7 @@ require_once('includes/header.php');
             }
      ?>
       </div>
+      <form method="post" class="<?php echo $hidden; ?>" autocomplete="off">
       <!-- first_row -->
       <div class="col-xs-12 col-md-6">
             <!-- USERNAME -->

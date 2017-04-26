@@ -50,6 +50,11 @@ require_once('includes/header.php');
 	<div class="row">
 		<div class="col-xs-12">
 			<section class="row">
+
+		<?php
+require_once('includes/promo.php');
+		?>
+
 				<div class="col-xs-12">
 					<h3 class="brandfont text-center color_bc1">
 						Offers

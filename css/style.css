@@ -28,9 +28,24 @@ header h1 {
     border-radius: 4px 0 0 4px;
 }
 
-/* custom inclusion of right, left and below tabs */
+.margin-left{
+    margin-left: 2%;
+}
 
+.promo_subdiv {
+    height: 150px;
+    
+}
+#promo_text{
+    padding:2%;
+}
 
+#promo_image {
+    /*height: 150px;*/
+    height: 90%;
+    margin-top: 7px;
+
+}
 
 /*brand fonts*/
 .background_bc1 {

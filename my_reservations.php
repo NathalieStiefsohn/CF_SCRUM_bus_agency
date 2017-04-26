@@ -8,24 +8,29 @@ $errTyp="";
 $errMSG="";
 $reservation_id="";
 
-$reservation_id = $_GET['reservation_id'];
-if (!empty($reservation_id)){
 
-	$delete_query="DELETE FROM RESERVATION WHERE reservation.id=".$reservation_id;
-	$res_delete = mysqli_query($con, $delete_query);
-	if ($res_delete) {
-		    $errTyp = "alert-success";
-		    $errMSG = "Your reservation was successfully canceled!";
+if(isset($_GET['reservation_id'])){
 
-		    unset($reservation_id);
 
-		   } else {
-		    $errTyp = "alert-danger";
-		    $errMSG = "Something went wrong, try again later...";
-		    // echo $errMSG;
-		   }
+
+	$reservation_id = $_GET['reservation_id'];
+	if (!empty($reservation_id)){
+
+		$delete_query="DELETE FROM RESERVATION WHERE reservation.id=".$reservation_id;
+		$res_delete = mysqli_query($con, $delete_query);
+		if ($res_delete) {
+			    $errTyp = "alert-success";
+			    $errMSG = "Your reservation was successfully canceled!";
+
+			    unset($reservation_id);
+
+			   } else {
+			    $errTyp = "alert-danger";
+			    $errMSG = "Something went wrong, try again later...";
+			    // echo $errMSG;
+			   }
+	}
 }
-
 
 
 require_once 'query/my_historic_booking.php';
@@ -70,21 +75,28 @@ require_once('includes/switch_user_view.php');
 require_once('includes/header.php');
 		?>
 
-	<!-- main 
-	<div class="row">
+	<!-- main  -->
+	<!-- <div class="row">
 		<div class="col-xs-12">
-			<section class="row">
-				<!-- <div class="col-xs-12">
+			<section class="row"> -->
+		<!-- 		<div class="col-xs-12">
 					<h3 class="brandfont text-center color_bc1">
 						My Reservations
 					</h3>
 					<hr class="border_bc1 ">	
-				</div> -->
+				</div>
 				
-	<div class="col-xs-12 margin-top">
+	<div class="col-xs-12 margin-top"> -->
           	
-      <!-- tabs left -->
-      <div class="row" id="my_reservations_row">
+<!-- promo -->
+       <div class="row">
+       	<?php
+require_once('includes/promo.php');
+		?>
+
+       </div>   	
+      <!-- tabs  -->
+      <div class="row margin-top" id="my_reservations_row">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#a" data-toggle="tab">Current</a></li>
           <li><a href="#b" data-toggle="tab">Historic</a></li>
