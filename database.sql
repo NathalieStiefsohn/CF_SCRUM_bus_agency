@@ -9,6 +9,7 @@ CREATE TABLE title(
     INDEX (id)
 );
 
+
 INSERT INTO 
     title 
         (name)
