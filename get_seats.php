@@ -4,8 +4,7 @@ require_once 'dbconnect.php';
 header('Content-type: application/json');
 
 
-$destination = 'Vienna-Bratislava';
-$scheduleID = 1;
+$scheduleID = 20;
 /*
 $availabilityQuery = $con->prepare(<<<'SQL'
 SELECT * FROM schedule 
@@ -26,11 +25,12 @@ $busQuery = $con->prepare(<<<'SQL'
 SELECT rows, columns, price FROM route
 INNER JOIN bus ON route.bus_id = bus.id
 INNER JOIN model ON bus.model_id = model.id
-WHERE destination = ?;
+INNER JOIN schedule ON route.id = schedule.route_id
+WHERE schedule.id = ?;
 SQL
 );
 
-$busQuery->bind_param('s', $destination);
+$busQuery->bind_param('i', $scheduleID);
 $busQuery->execute();
 $busData = $busQuery->get_result()->fetch_assoc();
 
@@ -42,7 +42,7 @@ INNER JOIN model AS mo ON bu.model_id = mo.id
 INNER JOIN seat AS sea ON mo.id = sea.model_id
 INNER JOIN discount as dis ON sea.discount_id = dis.id
 LEFT JOIN reservation AS res ON sea.id = res.seat_id
-WHERE rou.destination = ? AND sch.id = ?
+WHERE sch.id = ?
 ;
 SQL
 );
@@ -63,7 +63,7 @@ SQL
 
 
 
-$seatDataQuery->bind_param('si', $destination, $scheduleID);
+$seatDataQuery->bind_param('i', $scheduleID);
 $seatDataQuery->execute();
 $seatDataResult = $seatDataQuery->get_result();
 $seatData = [];
