@@ -6,16 +6,16 @@ INSERT INTO
     `route`
         (`id`, `destination`, `bus_id`, `min_seats`, `price`, `duration`)
     VALUES 
-        (1, 'Vienna-Bratislava', 1, 10, 12.00, `00:40:00`),
-        (2, 'Bratislava-Vienna', 1, 10, 12.00, `00:40:00`),
-        (3, 'Vienna-Frankfurt', 2, 10, 87.00, `10:30:00`),
-        (4, 'Frankfurt-Vienna', 2, 10, 87.00, `10:30:00`),
-        (5, 'Vienna-Paris', 3, 10, 114.00, `17:25:00`),
-        (6, 'Paris-Vienna', 3, 10, 114.00, `17:25:00`),
-        (7, 'Vienna-Venice', 4, 10, 68.00, `09:30:00`),
-        (8, 'Venice-Vienna', 4, 10, 68.00, `09:30:00`),
-        (9, 'Vienna-Salzburg', 5, 4, 46.00, `02:50:00`),
-        (10, 'Salzburg-Vienna', 5, 4, 46.00, `02:50:00`);
+        (1, 'Vienna-Bratislava', 1, 10, 12.00, '00:40:00'),
+        (2, 'Bratislava-Vienna', 1, 10, 12.00, '00:40:00'),
+        (3, 'Vienna-Frankfurt', 2, 10, 87.00, '10:30:00'),
+        (4, 'Frankfurt-Vienna', 2, 10, 87.00, '10:30:00'),
+        (5, 'Vienna-Paris', 3, 10, 114.00, '17:25:00'),
+        (6, 'Paris-Vienna', 3, 10, 114.00, '17:25:00'),
+        (7, 'Vienna-Venice', 4, 10, 68.00, '09:30:00'),
+        (8, 'Venice-Vienna', 4, 10, 68.00, '09:30:00'),
+        (9, 'Vienna-Salzburg', 5, 4, 46.00, '02:50:00'),
+        (10, 'Salzburg-Vienna', 5, 4, 46.00, '02:50:00');
 
 --
 -- Dumping data for table `schedule`
