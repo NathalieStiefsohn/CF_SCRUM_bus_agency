@@ -175,19 +175,20 @@ require_once('includes/promo.php');
 						<hr class="border_bc1 ">	
 					</div>
 					<div class="col-xs-12 margin-top">
-						<div class="row">					
+						<div class="row margin-top">					
 	
 						<?php
 							
-							while($row_historic_user_reservations){
+							while($row_historic_user_reservations = mysqli_fetch_array($res_historic_user_reservations)){
 								// $first_name = $row['first_name'];  
 							 //    $last_name = $row['last_name'];
-							    $booking_id = $row_historic_user_reservations['booking_id'];
+							     $booking_id = $row_historic_user_reservations['booking_id'];
 							    $booking_day = $row_historic_user_reservations['booking_day'];
 							    $departure_day = $row_historic_user_reservations['departure_day'];
 							    $destination = $row_historic_user_reservations['destination'];
 							    $seat_number = $row_historic_user_reservations['seat_number'];
-							    $departure_time =$row_current_user_reservations['departure_time'];
+							    $reservation_id = $row_historic_user_reservations['reservation_id'];
+							    $departure_time =$row_historic_user_reservations['departure_time'];
 							  echo '
 						    	<div class="col-xs-12 col-sm-6">
 							    	<div id="generate_destination">

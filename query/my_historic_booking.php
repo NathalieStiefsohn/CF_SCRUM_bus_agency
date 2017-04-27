@@ -8,7 +8,7 @@ $query_historic_user_reservations =
             booking.id AS booking_id,
             date_format(date(booking.stamp),'%d %M %Y') AS booking_day,
             date_format(date(schedule.departure),'%d %M %Y') AS departure_day,
-            date_format(date(schedule.departure),'%H %i') AS departure_time,
+            DATE_FORMAT(schedule.departure,'%H:%i') AS departure_time,
             route.destination AS destination,
             reservation.id AS reservation_id,
             seat.num AS seat_number
@@ -21,7 +21,8 @@ $query_historic_user_reservations =
             INNER JOIN `route` on schedule.route_id = route.id
         WHERE 
             user.id =".$_SESSION['user']."
-            AND date(schedule.departure) < date_format(date(now()),'%y-%m-%d');
+            AND date(schedule.departure) < date_format(date(now()),'%y-%m-%d')
+        ORDER BY schedule.departure ASC;
     ";
 
 $res_historic_user_reservations = mysqli_query($con, $query_historic_user_reservations);
