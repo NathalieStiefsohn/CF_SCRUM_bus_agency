@@ -100,9 +100,15 @@ function toggleSeat(seat, pictureDOM, parentDOM) {
         selectedSeats.add(seat.number);
         selectSeat(seat, pictureDOM, parentDOM);
     }
+    parentDOM.popover('show');
 }
 
 function updateSeats() {
+    // FIXME: replace popover if there is a current one active
+    var currentPopOver = $('.popover')[0];
+    if (currentPopOver) {
+        var currentPopOverParentId = $(currentPopOver).parent().attr('id');
+    }
     $.getJSON('get_seats.php?schedule_id='+scheduleId, function (bus) {
         basePrice = bus.price;
         createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, true);
@@ -112,8 +118,11 @@ function updateSeats() {
         });
         console.log('updated seats.');
         $('.diagram-col').popover({ trigger: "hover" });
-        setTimeout(updateSeats, 3000);
-    })
+        if (currentPopOverParentId) {
+            $('#'+currentPopOverParentId).popover('show');
+        }
+        setTimeout(updateSeats, 10000);
+    });
 }
 
 
