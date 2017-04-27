@@ -23,7 +23,7 @@ $availabilityData = $availabilityQuery->get_result()->fetch_assoc();
 
 
 $busQuery = $con->prepare(<<<'SQL'
-SELECT rows, columns FROM route
+SELECT rows, columns, price FROM route
 INNER JOIN bus ON route.bus_id = bus.id
 INNER JOIN model ON bus.model_id = model.id
 WHERE destination = ?;
