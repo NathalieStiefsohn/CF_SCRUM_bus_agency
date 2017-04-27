@@ -167,7 +167,8 @@ CREATE TABLE `route` (
 CREATE TABLE `schedule` (
   `id` int(15) NOT NULL,
   `route_id` int(15) NOT NULL,
-  `departure` datetime NOT NULL
+  `departure_date` date NOT NULL,
+  `departure_time` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

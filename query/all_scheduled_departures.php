@@ -40,20 +40,7 @@ GROUP BY
 
 // test
 
-SELECT DATE_FORMAT(schedule.departure,'%H:%i') TIMEONLY FROM `schedule`;
-
- SELECT date_format(date(schedule.departure),'%H %i') FROM `schedule`
-
- SELECT EXTRACT(HOUR_MINUTE FROM date(schedule.departure) FROM `schedule`;
-
-
-SELECT CAST(DATEPART(HOUR,   GETDATE())AS VARCHAR(2)) + ':' +
-       CAST(DATEPART(MINUTE, GETDATE())AS VARCHAR(2))
-
-SELECT DATEPART(hh,schedule.departure) AS hour,
-DATEPART(mi,schedule.departure) AS minute
-FROM 'schedule'
-WHERE OrderId=1 
+SELECT date_format(schedule.departure,'%H:%i') FROM `schedule`;
 
 
 $res_historic_user_reservations = mysqli_query($con, $query_historic_user_reservations);
