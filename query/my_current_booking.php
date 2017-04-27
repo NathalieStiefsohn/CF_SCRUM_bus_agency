@@ -8,7 +8,7 @@ $query_current_user_reservations =
             booking.id AS booking_id,
             date_format(date(booking.stamp),'%d %M %Y') AS booking_day,
             date_format(date(schedule.departure),'%d %M %Y') AS departure_day,
-            date_format(date(schedule.departure),'%H:%i') AS departure_time,
+            date_format(date(schedule.departure),'%H %i') AS departure_time,
             route.destination AS destination,
             reservation.id AS reservation_id,
             seat.num AS seat_number
