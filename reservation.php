@@ -66,6 +66,7 @@ require_once('includes/promo.php');
 					</h3>
 					<hr class="border_bc1 ">	
 				</div>
+<<<<<<< HEAD
 				<!-- form - user input -->
 				<form class="col-xs-12 text-center" autocomplete="off" method="get" >
 					<div class="row">
@@ -163,10 +164,19 @@ require_once('includes/promo.php');
 				 ?>
 				<!-- seat picker -->
                 <div class="col-xs-12 margin-top">
+=======
+				<!-- add data here -->
+                <div class="col-xs-12">
+                    <h4 class="color_bc1">Please pick your seat:</h4>
+>>>>>>> 2c2226c45788e7e231eefcee52510472dbe2b615
                     <div class="panel panel-default">
-                        <div class="panel-heading">Please pick your seat!</div>
                         <div class="seats-diagram"></div>
                     </div>
+                </div>
+                <div class="col-xs-12">
+                    <!-- SUBMIT -->
+                    <hr />
+                    <button type="submit" id="btn-reserve_seats" class="btn btn-block btn-primary background_bc1" name="btn-change_data">Book seats</button>
                 </div>
 			</section>
 		</div>
