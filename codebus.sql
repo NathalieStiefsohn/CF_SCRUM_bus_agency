@@ -154,7 +154,8 @@ CREATE TABLE `route` (
   `destination` varchar(255) NOT NULL,
   `bus_id` int(15) NOT NULL,
   `min_seats` int(15) NOT NULL,
-  `price` decimal(10,2) DEFAULT NULL
+  `price` decimal(10,2) DEFAULT NULL,
+  `duration` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -166,8 +167,7 @@ CREATE TABLE `route` (
 CREATE TABLE `schedule` (
   `id` int(15) NOT NULL,
   `route_id` int(15) NOT NULL,
-  `departure` datetime NOT NULL,
-  `eta` datetime NOT NULL
+  `departure` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -316,16 +316,20 @@ VALUES
 --
 
 INSERT INTO 
-    `user` (`id`, `title_id`, `avatar_id`, `first_name`, `last_name`, `email`, `tel`, `birth_year`, `password`) 
-VALUES
-    (1, 1, 1, 'Admin', 'Surname', 'admin@CodeBus.com', '+43 660 123 1234', 1972, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
+    `user` 
+      (`id`, `title_id`, `avatar_id`, `first_name`, `last_name`, `email`, `tel`, `birth_year`, `password`) 
+  VALUES
+      (1, 1, 1, 'Admin', 'Surname', 'admin@CodeBus.com', '+43 660 123 1234', 1972, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92');
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id`, `user_id`) VALUES
-(1, 1);
+INSERT INTO 
+  `admin` 
+    (`id`, `user_id`) 
+  VALUES
+    (1, 1);
 
 
 --
@@ -333,21 +337,23 @@ INSERT INTO `admin` (`id`, `user_id`) VALUES
 --
 
 INSERT INTO 
-    `payment` (`id`, `user_id`, `iban`) 
-VALUES
-    (1, 1, '123456789');
+    `payment` 
+      (`id`, `user_id`, `iban`) 
+  VALUES
+      (1, 1, '123456789');
 
 --
 -- Dumping data for table `discount`
 --
 
 INSERT INTO 
-    `discount` (`id`, `rate`)
-VALUES
-(1, '0.00'),
-(2, '0.10'),
-(3, '0.20'),
-(4, '0.25');
+    `discount` 
+      (`id`, `rate`)
+  VALUES
+    (1, '0.00'),
+    (2, '0.10'),
+    (3, '0.20'),
+    (4, '0.25');
 
 
 -- --------------------------------------------------------
