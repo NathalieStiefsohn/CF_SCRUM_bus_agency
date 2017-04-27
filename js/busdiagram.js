@@ -3,6 +3,13 @@
 var selectedSeats = new Set();
 var basePrice;
 
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    return results && results[1] || 0 ;
+};
+
+var scheduleId = $.urlParam('schedule_id');
+
 function getPrice(discount) {
     return (basePrice * (1-discount)).toFixed(2);
 }
@@ -96,7 +103,7 @@ function toggleSeat(seat, pictureDOM, parentDOM) {
 }
 
 function updateSeats() {
-    $.getJSON('get_seats.php', function (bus) {
+    $.getJSON('get_seats.php?schedule_id='+scheduleId, function (bus) {
         basePrice = bus.price;
         createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, true);
         console.log('There are '+bus.seats.length+' seats in this bus.');
@@ -109,8 +116,12 @@ function updateSeats() {
     })
 }
 
+
+
 $(document).ready(function () {
-        updateSeats();
+        if (scheduleId > 0) {
+            updateSeats();
+        }
     }
 );
 

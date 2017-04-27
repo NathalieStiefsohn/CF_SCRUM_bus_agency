@@ -3,8 +3,10 @@ require_once 'dbconnect.php';
 
 header('Content-type: application/json');
 
-
-$scheduleID = 20;
+$scheduleID = 0;
+if (isset($_GET['schedule_id'])) {
+    $scheduleID = $con->real_escape_string($_GET['schedule_id']) ;
+}
 /*
 $availabilityQuery = $con->prepare(<<<'SQL'
 SELECT * FROM schedule 
