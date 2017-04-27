@@ -60,10 +60,15 @@ require_once('includes/header.php');
 				</div>
 				<!-- add data here -->
                 <div class="col-xs-12">
+                    <h4 class="color_bc1">Please pick your seat:</h4>
                     <div class="panel panel-default">
-                        <div class="panel-heading">Please pick your seat!</div>
                         <div class="seats-diagram"></div>
                     </div>
+                </div>
+                <div class="col-xs-12">
+                    <!-- SUBMIT -->
+                    <hr />
+                    <button type="submit" id="btn-reserve_seats" class="btn btn-block btn-primary background_bc1" name="btn-change_data">Book seats</button>
                 </div>
 			</section>
 		</div>

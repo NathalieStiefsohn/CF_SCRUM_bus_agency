@@ -1,6 +1,6 @@
 // Bus diagram
 
-var selectedSeats = {};
+var selectedSeats = new Set();
 
 function createSeatRow(targetDOM, startCol, endCol, rowNum, vertical) {
 
@@ -26,30 +26,57 @@ function createSeatGrid(targetDOM, rowCount, columnCount, vertical) {
     }
 }
 
-function createBookingButton(row, column, booked) {
-    var targetDOM = $('#seat-'+row+'-'+column);
+function createSeat(seat) {
+    var targetDOM = $('#seat-'+seat.col+'-'+seat.row);
     targetDOM.empty();
-    var buttonDOM = $('<img class="seat-image rotateimg270 " src="./pictures/seat.svg">');
-    if (booked) {
-        buttonDOM.attr('disabled', true);
-        buttonDOM.attr('src', "./pictures/seat_company_purple.svg");
+    targetDOM.addClass('seat-discounted-'+seat.discount_id);
+    var pictureDOM = $('<img class="seat-image rotateimg270" src="./pictures/seat.svg">');
+    if (seat.booked) {
+        if (selectedSeats.has(seat.number)) {
+            selectedSeats.remove(seat.number);
+            alertMusicalChairs(seat);
+        }
+        pictureDOM.attr('disabled', true);
+        pictureDOM.attr('src', "./pictures/seat_company_purple.svg");
 
     } else {
-        buttonDOM.addClass('clickable-image');
-        buttonDOM.attr('src', "./pictures/seat_green.svg");
-        buttonDOM.click(function () {
-            bookSeat(row, column);
-            buttonDOM.attr('src', "./pictures/seat_blue.svg");
-
+        pictureDOM.addClass('clickable-image');
+        if (selectedSeats.has(seat.number)) {
+            pictureDOM.attr('src', "./pictures/seat_blue.svg");
+        } else {
+            pictureDOM.attr('src', "./pictures/seat_green.svg");
+        }
+        pictureDOM.click(function () {
+            toggleSeat(seat, pictureDOM);
         });
     }
     targetDOM.append(
-        buttonDOM
+        pictureDOM
     );
 }
 
-function bookSeat(row, column) {
-    console.log('booking seat row: '+row+', column: '+column);
+function alertMusicalChairs(seat) {
+    console.log('seat snatched away row: '+seat.row+', column: '+seat.col);
+}
+function deselectSeat(seat, pictureDOM) {
+    selectedSeats.delete(seat.number);
+    pictureDOM.attr('src', "./pictures/seat_green.svg");
+    console.log('deselect seat row: '+seat.row+', column: '+seat.col);
+}
+
+function selectSeat(seat, pictureDOM) {
+    selectedSeats.add(seat.number);
+    pictureDOM.attr('src', "./pictures/seat_blue.svg");
+    console.log('select seat row: '+seat.row+', column: '+seat.col);
+}
+
+function toggleSeat(seat, pictureDOM) {
+    if (selectedSeats.has(seat.number)) {
+        deselectSeat(seat, pictureDOM);
+
+    } else {
+        selectSeat(seat, pictureDOM);
+    }
 }
 
 function updateSeats() {
@@ -57,8 +84,10 @@ function updateSeats() {
         createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, true);
         console.log('There are '+bus.seats.length+' seats in this bus.');
         bus.seats.forEach(function (seat) {
-            createBookingButton(seat.col, seat.row, seat.booked);
-        })
+            createSeat(seat);
+        });
+        console.log('updated seats.');
+        setTimeout(updateSeats, 3000);
     })
 }
 
