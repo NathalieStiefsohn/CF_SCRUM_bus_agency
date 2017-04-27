@@ -8,6 +8,15 @@ require_once('includes/start_session_user.php');
 		$destination=$_POST['destination'];
 	}
 
+?>
+<?php
+	$hidden = "hidden";
+	$hidden2 = "";
+	if(isset($_GET['schedule_id'])){
+		$schedule_id=$_GET['schedule_id'];
+		$hidden="";
+		$hidden2 = "hidden";
+	}
 
 ?>
 <!DOCTYPE html>
@@ -66,12 +75,12 @@ require_once('includes/promo.php');
 					</h3>
 					<hr class="border_bc1 ">	
 				</div>
-<<<<<<< HEAD
+
 				<!-- form - user input -->
-				<form class="col-xs-12 text-center" autocomplete="off" method="get" >
+				<form class="col-xs-12 background_bc1 text-center <?php echo $hidden2; ?>" autocomplete="off" method="get" >
 					<div class="row">
 						<div class="col-xs-12 col-md-4 col-md-offset-1 margin-top">
-							<label for="destination" class="text-left color_bc1">Route</label>
+							<label for="destination" class="text-left color_bc3">Route</label>
 							<input type="text" list="list_destination" name="destination" class="form-control">
 							<datalist id="list_destination">
 				  	<?php
@@ -94,14 +103,17 @@ require_once('includes/promo.php');
 				  			</datalist>	
 						</div>
 						<div class="col-xs-12 col-md-4 col-md-offset-2 margin-top">
-							<label for="date" class="text-left color_bc1">Date</label>
+							<label for="date" class="text-left color_bc3">Date</label>
 							<input type="text" name="date" id="date" class="form-control">	
 						</div>
 						<div class="col-xs-12 col-md-1 additional-top-margin">
 
-							<input type="submit" name="btn-destination " id="btn-destination" class="btn background_bc1 color_bc3 visible-md visible-lg" value="Go!">
-							<input type="submit" name="btn-destination" id="btn-destination" class="btn btn-block background_bc1 color_bc3 hidden-md hidden-lg" value="Go!">
+							<input type="submit" name="btn-destination " id="btn-destination" class="btn background_bc3 color_bc1 visible-md visible-lg" value="Go!">
+							<input type="submit" name="btn-destination" id="btn-destination" class="btn btn-block background_bc3 color_bc1 hidden-md hidden-lg" value="Go!">
 							
+						</div>
+						<div class="col-xs-12">
+							<br>
 						</div>
 					</div>
 				</form>
@@ -124,38 +136,66 @@ require_once('includes/promo.php');
 						<div class="col-xs-12 text-center">
 						<h3 class="color_bc1 brandfont ">'.$route.'</h3>
 						<h3 class="color_bc1 brandfont ">'.$dep_date.'</h3>	
-						<hr>
-							<table class="table" id="all_users_table">
-								<thead>
-							      <tr>
-							        <th>Time</th>
-							        <th>Select</th>
-							      </tr>
-							    </thead>
-							    <tbody>
-			    ';
+						<hr>';
 
-						while($row_select_schedule = mysqli_fetch_array($res_select_schedule)){
-				  			$schedule_id = $row_select_schedule['schedule_id'];
-				  			$destination = $row_select_schedule['destination']; 
-				  			$departure = $row_select_schedule['departure']; 
+						if ($count_select_schedule==0){
+							echo '
+								<div class="alert background_bc1 color_bc3">
+									<h3>There are no bus rides scheduled for this date and route.</h3>
+								</div>
+							';
 
-					  		echo '
-					  		<tr>
-								<td>'.$departure.'</td>
-								<td>
-									<form>
-										<input type="submit" value="Select" class="btn background_bc1 color_bc3">
-									</form>
-								</td>
-					  		</tr>
-					  		';
-				  		}
-				echo '
+
+						} else {
+							echo'
+								<table class="table" id="all_users_table">
+									<thead class="text-center">
+								      <tr>
+								      	
+								        <th>Departure Time</th>
+								        <th>Duration</th>
+								        
+								        <th></th>
+								      </tr>
+								    </thead>
+								    <tbody>
+				    		';
+
+							while($row_select_schedule = mysqli_fetch_array($res_select_schedule)){
+					  			$schedule_id = $row_select_schedule['schedule_id'];
+					  			$destination = $row_select_schedule['destination']; 
+					  			$schedule_id = $row_select_schedule['schedule_id']; 
+		
+					  			$duration1 = $row_select_schedule['duration']; 
+					  			$duration = date('h:i', strtotime($duration1)); 
+
+					  			$departure1 = $row_select_schedule['departure_time'];
+					  			$departure = date('g:ia', strtotime($departure1)); 
+
+
+
+						  		echo '
+						  		<tr>
+									
+									<td>'.$departure.'</td>
+									<td>'.$duration.'</td>
+									
+									<td>
+										<form method="post" action="reservation.php?schedule_id='.$schedule_id.'">
+											<input type="submit" value="Select" class="btn background_bc1 color_bc3">
+										</form>
+									</td>
+						  		</tr>
+						  		';
+					  		}
+							echo '
 								</tbody>
 							</table>
+							';
+						}
+						echo'
 						</div>
-				';
+						';
 
 					}
 
@@ -163,20 +203,21 @@ require_once('includes/promo.php');
 
 				 ?>
 				<!-- seat picker -->
-                <div class="col-xs-12 margin-top">
-=======
-				<!-- add data here -->
-                <div class="col-xs-12">
-                    <h4 class="color_bc1">Please pick your seat:</h4>
->>>>>>> 2c2226c45788e7e231eefcee52510472dbe2b615
-                    <div class="panel panel-default">
-                        <div class="seats-diagram"></div>
-                    </div>
-                </div>
-                <div class="col-xs-12">
-                    <!-- SUBMIT -->
-                    <hr />
-                    <button type="submit" id="btn-reserve_seats" class="btn btn-block btn-primary background_bc1" name="btn-change_data">Book seats</button>
+				<div class="<?php echo $hidden; ?>">
+					
+	                <div class="col-xs-12 margin-top">
+	                    <h4 class="color_bc1">Please pick your seat:</h4>
+
+	                    <div class="panel panel-default">
+	                        <div class="seats-diagram"></div>
+	                    </div>
+	                </div>
+                
+	                <div class="col-xs-12">
+	                    <!-- SUBMIT -->
+	                    <hr />
+	                    <button type="submit" id="btn-reserve_seats" class="btn btn-block btn-primary background_bc1" name="btn-change_data">Book seats</button>
+	                </div>
                 </div>
 			</section>
 		</div>

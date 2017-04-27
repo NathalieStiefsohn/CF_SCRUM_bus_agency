@@ -194,7 +194,7 @@ require_once('includes/promo.php');
 							    	<div id="generate_destination">
 							    		<div class=panel panel-default wrap_destination"> 
 								    		<div class="panel panel-default">
-												<div class="panel-heading background_bc1 color_bc3 brandfont"><h4><b>'.$destination.'</b></h4></div>
+												<div class="panel-heading background_bc2 color_bc3 brandfont"><h4><b>'.$destination.'</b></h4></div>
 												<div class="panel-body color_bc2">
 													<h4 class="text-right"><b>Booking Nr. 	</b>'.$booking_id.'</h4>									
 													<h4><b>Departure: </b>'.$departure_day.' - '.$departure_time.'</h4>
