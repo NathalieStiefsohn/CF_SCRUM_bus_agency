@@ -103,6 +103,7 @@ require_once('includes/head_tag.php');
 	        <li><a href="all_rides.php">All Rides</a></li>
 	        <li><a href="all_users.php">All Users</a></li>
 	        <li class="active"><a href="add_holidays.php">Manage Promo Days</a></li>
+	        <li><a href="add_schedules.php">Add Schedules</a></li>
 	      </ul>
 
 	    </div>
@@ -131,7 +132,7 @@ require_once('includes/head_tag.php');
           require_once('includes/alert_box.php');
         }
     ?>
-				<form class="col-xs-12  <?php echo $hidden; ?> text-center margin-top" method="POST" >
+				<form id="form_promo" class="col-xs-12 <?php echo $hidden; ?> text-center margin-top" method="POST" >
 					<label for="date">
 					<input class="form-control text-center" type="text" name="date" id="date">
 					<!-- <input type="text" name="username" id="to" name="to"> -->

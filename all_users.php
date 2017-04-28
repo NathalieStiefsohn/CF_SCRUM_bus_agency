@@ -8,6 +8,16 @@ require_once('includes/start_session_admin.php');
 	$count_all_users = "";
 	$count_users = "";
 	require'query/all_users_query.php';
+
+	if ( isset($_GET['btn-search']) ){
+		$search = trim($_GET['search']);
+ 		$search = strip_tags($search);
+  		$search = htmlspecialchars($search);
+		
+  		require 'query/search_users_query.php';
+	}
+
+
 ?>
 <?php
 	if(isset($_GET['user_id'])){
@@ -88,6 +98,7 @@ require_once('includes/head_tag.php');
 	        <li><a href="all_rides.php">All Rides</a></li>
 	        <li class="active"><a href="all_users.php">All Users</a></li>
 	        <li><a href="add_holidays.php">Manage Promo Days</a></li>
+	        <li><a href="add_schedules.php">Add Schedules</a></li>
 	      </ul>
 
 	    </div><!--/.nav-collapse -->
@@ -148,6 +159,7 @@ require_once('includes/search_bar.php');
 			        <th>Tel Nr</th>
 			        <th>IBAN</th>
 			        <th class="text-center">Admin-Rights</th>
+			        <th>Rides</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -155,11 +167,7 @@ require_once('includes/search_bar.php');
 				 // select all available users
 				 
 				if ( isset($_GET['btn-search']) ){
-					$search = trim($_GET['search']);
-			 		$search = strip_tags($search);
-			  		$search = htmlspecialchars($search);
 					
-			  		require 'query/search_users_query.php';
 
 					if ($count_users == 1){
 						echo "<h4 class='text-center'>We found ".$count_users." result for '".$search."'.</h4> <hr>";
@@ -202,7 +210,13 @@ require_once('includes/search_bar.php');
 								</form>
 						  	';
 						}
-						echo '</td>
+						echo '		</td>
+									<td>
+										<form method="post" action="users_rides_admin.php?user_id_rides='.$user_id.'">
+											<input type="submit" class="btn btn-primary background_bc1" value="Rides" id="btn-users_rides" name="btn-users_rides">
+										</form>
+									</td>
+
 								</tr>';
 			  		}
 				} else {
@@ -241,6 +255,12 @@ require_once('includes/search_bar.php');
 						  	';
 						}
 						echo '</td>
+									<td>
+										<form method="post" action="users_rides_admin.php?user_id_rides='.$user_id.'">
+											<input type="submit" class="btn btn-primary background_bc1" value="Rides" id="btn-users_rides" name="btn-users_rides">
+										</form>
+									</td>
+
 								</tr>';
 			  		}
   				}

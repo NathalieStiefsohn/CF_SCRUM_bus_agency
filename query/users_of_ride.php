@@ -5,14 +5,17 @@ require_once('includes/start_session_admin.php');
 	$errTyp="";
 	$errMSG="";
 	$hidden="";
-	require 'query/scheduled_departures.php';
 
-	if ( isset($_GET['btn-search']) ){
-		$search = trim($_GET['search']);
- 		$search = strip_tags($search);
-  		$search = htmlspecialchars($search);
-		require 'query/search_scheduled_departures.php';
+?>
+<?php
+	if(isset($_GET['schedule_id'])){
+		$schedule = $_GET['schedule_id'];
+		
+		
+	} else {
+		header("Location: all_rides.php");
 	}
+	
 ?>
 <!DOCTYPE html>
 <html>

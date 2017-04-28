@@ -32,6 +32,7 @@ require_once('includes/head_tag.php');
 	        <li><a href="all_rides.php">All Rides</a></li>
 	        <li><a href="all_users.php">All Users</a></li>
 	        <li><a href="add_holidays.php">Manage Promo Days</a></li>
+	        <li><a href="add_schedules.php">Add Schedules</a></li>
 	      </ul>
 
 	    </div><!--/.nav-collapse -->
