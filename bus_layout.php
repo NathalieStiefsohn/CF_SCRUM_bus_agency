@@ -1,6 +1,7 @@
 <?php
 require_once 'dbconnect.php';
 require 'includes/bus_layout_data.php';
+require_once 'includes/sql_helpers.php';
 
 $getModelQuery = $con->prepare(<<<'SQL'
 SELECT id FROM model WHERE seats = ?;
@@ -39,15 +40,7 @@ VALUES (?);
 SQL
 );
 
-function checkAndPrintSQLError($successMessage) {
-    global $con;
-    $error = $con->error;
-    if ($error) {
-        echo "<p>MySQL error:: $error</p>";
-    } else {
-        echo $successMessage;
-    }
-}
+
 
 function addBusModel($seatCount, $seatRows, $seatColumns) {
     global $createModelQuery;
