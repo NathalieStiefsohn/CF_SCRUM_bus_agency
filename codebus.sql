@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 02. Mai 2017 um 08:40
+-- Erstellungszeit: 02. Mai 2017 um 09:01
 -- Server-Version: 10.1.21-MariaDB
 -- PHP-Version: 5.6.30
 
@@ -466,7 +466,6 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
-(1, 1, 11, NULL),
 (2, 1, 12, NULL),
 (3, 1, 3, NULL),
 (4, 2, 39, NULL),
@@ -479,8 +478,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (11, 7, 9, NULL),
 (12, 8, 26, NULL),
 (13, 8, 27, NULL),
-(14, 1, 11, NULL),
-(16, 1, 3, NULL),
 (17, 2, 39, NULL),
 (18, 2, 40, NULL),
 (19, 3, 8, NULL),
@@ -492,8 +489,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (25, 8, 26, NULL),
 (26, 8, 27, NULL),
 (27, 101, 11, NULL),
-(28, 1, 12, NULL),
-(29, 1, 3, NULL),
 (30, 2, 39, NULL),
 (31, 62, 40, NULL),
 (32, 3, 8, NULL),
@@ -506,8 +501,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (39, 8, 27, NULL),
 (40, 8, 27, NULL),
 (51, 1, 11, NULL),
-(52, 101, 12, NULL),
-(53, 1, 3, NULL),
 (54, 2, 39, NULL),
 (55, 2, 40, NULL),
 (56, 103, 8, NULL),
@@ -519,8 +512,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (62, 8, 26, NULL),
 (63, 108, 27, NULL),
 (64, 141, 11, NULL),
-(65, 1, 12, NULL),
-(66, 1, 3, NULL),
 (67, 2, 39, NULL),
 (68, 102, 40, NULL),
 (69, 3, 8, NULL),
@@ -531,9 +522,7 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (74, 7, 9, NULL),
 (75, 78, 26, NULL),
 (76, 8, 27, NULL),
-(77, 1, 11, NULL),
 (78, 17, 12, NULL),
-(79, 1, 3, NULL),
 (80, 62, 39, NULL),
 (81, 2, 40, NULL),
 (82, 3, 8, NULL),
@@ -545,9 +534,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (88, 138, 26, NULL),
 (89, 8, 27, NULL),
 (90, 87, 27, NULL),
-(91, 1, 11, NULL),
-(92, 1, 12, NULL),
-(93, 101, 3, NULL),
 (94, 2, 39, NULL),
 (95, 2, 40, NULL),
 (96, 193, 8, NULL),
@@ -568,7 +554,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (111, 197, 9, NULL),
 (112, 87, 26, NULL),
 (113, 8, 27, NULL),
-(114, 101, 11, NULL),
 (115, 191, 12, NULL),
 (116, 41, 3, NULL),
 (117, 26, 39, NULL),
@@ -581,7 +566,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (124, 7, 9, NULL),
 (125, 8, 26, NULL),
 (126, 8, 27, NULL),
-(127, 101, 11, NULL),
 (128, 1, 12, NULL),
 (129, 191, 3, NULL),
 (130, 27, 39, NULL),
@@ -623,7 +607,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (176, 83, 27, NULL),
 (177, 71, 11, NULL),
 (178, 41, 12, NULL),
-(179, 1, 3, NULL),
 (180, 132, 39, NULL),
 (181, 2, 40, NULL),
 (182, 103, 8, NULL),
@@ -636,8 +619,6 @@ INSERT INTO `reservation` (`id`, `booking_id`, `seat_id`, `canceled`) VALUES
 (189, 98, 27, NULL),
 (190, 87, 27, NULL),
 (191, 1, 11, NULL),
-(192, 101, 12, NULL),
-(193, 101, 3, NULL),
 (194, 26, 39, NULL),
 (195, 102, 40, NULL),
 (196, 3, 8, NULL),
