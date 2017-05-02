@@ -8,12 +8,12 @@ $query_current_user_reservations =
             booking.id AS booking_id,
             date_format(date(booking.stamp),'%d %M %Y') AS booking_day,
             date_format(schedule.departure_date, '%d %M %Y') AS departure_day,
-
             date_format(schedule.departure_time, '%H:%i') AS departure_time,
             route.destination AS destination,
             reservation.id AS reservation_id,
             seat.num AS seat_number
-        FROM `user`
+        FROM 
+            `user`
             INNER JOIN `payment` on user.id = payment.user_id
             INNER JOIN `booking` on payment.id = booking.payment_id
             INNER JOIN `reservation` on booking.id = reservation.booking_id
@@ -23,7 +23,8 @@ $query_current_user_reservations =
         WHERE 
             user.id =".$_SESSION['user']." 
             AND schedule.departure_date >= date_format(date(now()),'%y-%m-%d')
-        ORDER BY schedule.departure_date ASC;
+        ORDER BY 
+            schedule.departure_date ASC;
     ";
 
 $res_current_user_reservations = mysqli_query($con, $query_current_user_reservations);

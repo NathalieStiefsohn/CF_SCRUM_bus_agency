@@ -1,6 +1,6 @@
 <?php
 $allSeatsOfSchedule = 
-"
+<<<SQL
     SELECT 
         sea.num AS number, 
         discount_id, 
@@ -18,5 +18,5 @@ $allSeatsOfSchedule =
         LEFT JOIN reservation AS res ON sea.id = res.seat_id
     WHERE 
         sch.id = ?
-";
+SQL;
 ?>

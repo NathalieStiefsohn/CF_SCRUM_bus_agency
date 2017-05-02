@@ -77,17 +77,6 @@ CREATE TABLE `reservation` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bus`
---
-
-CREATE TABLE `bus` (
-  `id` int(15) NOT NULL,
-  `model_id` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `device`
 --
 
@@ -146,13 +135,36 @@ CREATE TABLE `payment` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bus`
+--
+
+CREATE TABLE `bus` (
+  `id` int(15) NOT NULL,
+  `route_id` int(15) NOT NULL,
+  `model_id` int(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `location`
+--
+
+CREATE TABLE `location` (
+  `id` int(15) NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `route`
 --
 
 CREATE TABLE `route` (
   `id` int(15) NOT NULL,
-  `destination` varchar(255) NOT NULL,
-  `bus_id` int(15) NOT NULL,
+  `departure_id` int(15) NOT NULL,
+  `destination_id` int(15) NOT NULL,
   `min_seats` int(15) NOT NULL,
   `price` decimal(10,2) DEFAULT NULL,
   `duration` time NOT NULL

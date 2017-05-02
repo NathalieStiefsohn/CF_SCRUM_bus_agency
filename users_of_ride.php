@@ -5,6 +5,18 @@ require_once('includes/start_session_admin.php');
 	$errTyp="";
 	$errMSG="";
 	$hidden="";
+	$count_all_users = "";
+	$count_users = "";
+	require'query/all_users_query.php';
+
+	if ( isset($_GET['btn-search']) ){
+		$search = trim($_GET['search']);
+ 		$search = strip_tags($search);
+  		$search = htmlspecialchars($search);
+		
+  		require 'query/search_users_query.php';
+	}
+
 
 ?>
 <?php
@@ -64,16 +76,16 @@ require_once('includes/head_tag.php');
 			<section class="row">
 				<div class="col-xs-12">
 					<h3 class="brandfont text-center color_bc1">
-						All Rides
+						All Users
 					
 					<?php
 						if(isset($_GET['search'])){
 							echo'
-								<label class="label background_bc1 color_bc3">'.$count_search_current_scheduled_depurtures.'</label>
+								<label class="label background_bc1 color_bc3">'.$count_users.'</label>
 							';
 						} else {
 							echo'
-								<label class="label background_bc1 color_bc3">'.$count_current_scheduled_depurtures.'</label>
+								<label class="label background_bc1 color_bc3">'.$count_all_users.'</label>
 							';
 						}
 
@@ -83,6 +95,11 @@ require_once('includes/head_tag.php');
 				</div>
 				
 
+
+		<?php
+require_once('includes/alert_box.php');
+		?>
+
 			<div class="<?php echo $hidden; ?>">
 
 <?php
@@ -91,17 +108,17 @@ require_once('includes/search_bar.php');
 
 		
 		<div class="col-xs-12">
-			<table class="table table-responsive table-hover" id="all_users_table">
+			<table class="table" id="all_users_table">
 				<thead>
 			      <tr>
-			      	<th>Route</th>
-			        <th>Day</th>
-			        <th>Time</th>
-			        <th>Duration</th>
-			        <th>Reservations</th>
-			        <th>min Reservations<br>needed</th>
-			        <th>Used Capacity</th>
-			        <th>Users</th>
+			        <th>Title</th>
+			        <th>First Name</th>
+			        <th>Last Name</th>
+			        <th>E-Mail</th>
+			        <th>Tel Nr</th>
+			        <th>IBAN</th>
+			        <th class="text-center">Admin-Rights</th>
+			        <th>Rides</th>
 			      </tr>
 			    </thead>
 			    <tbody>
@@ -109,89 +126,100 @@ require_once('includes/search_bar.php');
 				 // select all available users
 				 
 				if ( isset($_GET['btn-search']) ){
-			
-			  		
+					
 
-					if ($count_search_current_scheduled_depurtures == 1){
-						echo "<h4 class='text-center'>We found ".$count_search_current_scheduled_depurtures." result for '".$search."'.</h4> <hr>";
-					} else if ($count_search_current_scheduled_depurtures == 0) {
+					if ($count_users == 1){
+						echo "<h4 class='text-center'>We found ".$count_users." result for '".$search."'.</h4> <hr>";
+					} else if ($count_users == 0) {
 					echo '<div class="alert alert-danger">
 							<h4 class="text-center">Unfortunately there are no results for "'.$search.'". <br></h4> 
 						</div><hr>';
 					} else {
-						echo "<h4 class='text-center'>We found ".$count_search_current_scheduled_depurtures." results for '".$search."'.</h4> <hr>";
+						echo "<h4 class='text-center'>We found ".$count_users." results for '".$search."'.</h4> <hr>";
 					}
 					$i = 0;
-			  		while($row_search_current_scheduled_depurtures = mysqli_fetch_array($res_search_current_scheduled_depurtures)){
-				  		$route = $row_search_current_scheduled_depurtures['destination'];
-				  		$departure_date = $row_search_current_scheduled_depurtures['departure_date'];
-				  		$departure_time = $row_search_current_scheduled_depurtures['departure_time'];
-				  		$duration = $row_search_current_scheduled_depurtures['duration'];
-				  		$reservations = $row_search_current_scheduled_depurtures['reservations'];
-				  		$min_seats = $row_search_current_scheduled_depurtures['min_seats'];
-				  		$max_seats = $row_search_current_scheduled_depurtures['max_seats'];
-				  		$schedule_id = $row_search_current_scheduled_depurtures['schedule_id'];
+			  		while($row_users = mysqli_fetch_array($res_users)){
+				  		$title = $row_users['title'];
+				  		$first_name = $row_users['first_name'];
+				  		$family_name = $row_users['last_name'];
+				  		$email = $row_users['email'];
+				  		$iban = $row_users['iban'];
+				  		$tel = $row_users['tel'];
+				  		$admin_id = $row_users['admin_id'];
+				  		$user_id = $row_users['user_id'];
 				  		
-				  		
-				  		$min_needed = $min_seats-$reservations;
-				  		if($min_needed <0){
-				  			$min_needed = 0;
-				  		}
-
-				  		$used_capacity = round(($reservations/$max_seats)*100);
-
+				  	
 				  		echo 	'<tr> 
-									<td>'.$route.'</td>
-									<td>'.$departure_date.'</td>
-									<td>'.$departure_time.'</td>
-									<td>'.$duration.'</td>
-									<td>'.$reservations.'</td>
-									<td>'.$min_needed.'</td>
-									<td>'.$used_capacity.'%</td>
+									<td>'.$title.'</td>
+									<td>'.$first_name.'</td>
+									<td>'.$family_name.'</td>
+									<td>'.$email.'</td>
+									<td>'.$tel.'</td>
+									<td>'.$iban.'</td>
+									<td class="text-center">';
+
+						if (empty($admin_id)) {
+							echo '<form method="post" action="all_users.php?user_id='.$user_id.'">
+											<input type="submit" class="btn btn-success" value="Give" id="btn-give_admin_rights" name="btn-give_admin_rights">
+										</form>
+						  	';
+						} else {
+							echo '<form method="post" action="all_users.php?remove_rights_user_id='.$user_id.'">
+									<input type="submit" class="btn btn-primary background_bc1" value="Remove" id="btn-remove_admin_rights" name="btn-remove_admin_rights">
+								</form>
+						  	';
+						}
+						echo '		</td>
 									<td>
-										<form method="post" action="users_of_ride.php?schedule_id='.$schedule_id.'">
-											<input type="submit" class="btn btn-primary background_bc1" value="Users" id="btn-display_users" name="btn-display_users">
+										<form method="post" action="users_rides_admin.php?user_id_rides='.$user_id.'">
+											<input type="submit" class="btn btn-primary background_bc1" value="Rides" id="btn-users_rides" name="btn-users_rides">
 										</form>
 									</td>
+
 								</tr>';
 			  		}
 				} else {
 
 					
-					
-					
-			  		while($row_current_scheduled_depurtures = mysqli_fetch_array($res_current_scheduled_depurtures)){
-				  		$route = $row_current_scheduled_depurtures['destination'];
-				  		
-				  		$departure_date = $row_current_scheduled_depurtures['departure_date'];
-				  		$departure_time = $row_current_scheduled_depurtures['departure_time'];
-				  		$duration = $row_current_scheduled_depurtures['duration'];
-				  		$reservations = $row_current_scheduled_depurtures['reservations'];
-				  		$min_seats = $row_current_scheduled_depurtures['min_seats'];
-				  		$max_seats = $row_current_scheduled_depurtures['max_seats'];
-				  		$schedule_id = $row_current_scheduled_depurtures['schedule_id'];
-				  		
-				  		
-				  		$min_needed = $min_seats-$reservations;
-				  		if($min_needed <0){
-				  			$min_needed = 0;
-				  		}
 
-				  		$used_capacity = round(($reservations/$max_seats)*100);
-
+					
+			  		while($row_all_users = mysqli_fetch_array($res_all_users)){
+				  		$title = $row_all_users['title'];
+				  		$first_name = $row_all_users['first_name'];
+				  		$family_name = $row_all_users['last_name'];
+				  		$email = $row_all_users['email'];
+				  		$tel = $row_all_users['tel'];
+				  		$iban = $row_all_users['iban'];
+				  		$admin_id = $row_all_users['admin_id'];
+				  		$user_id = $row_all_users['user_id'];
+				  		
 				  		echo 	'<tr> 
-									<td>'.$route.'</td>
-									<td>'.$departure_date.'</td>
-									<td>'.$departure_time.'</td>
-									<td>'.$duration.'</td>
-									<td>'.$reservations.'</td>
-									<td>'.$min_needed.'</td>
-									<td>'.$used_capacity.'%</td>
+									<td>'.$title.'</td>
+									<td>'.$first_name.'</td>
+									<td>'.$family_name.'</td>
+									<td>'.$email.'</td>
+									<td>'.$tel.'</td>
+									<td>'.$iban.'</td>
+									<td class="text-center">';
+
+						if (empty($admin_id)) {
+							echo '<form method="post" action="all_users.php?user_id='.$user_id.'">
+											<input type="submit" class="btn btn-success" value="Give" id="btn-give_admin_rights" name="btn-give_admin_rights">
+										</form>
+						  	';
+						} else {
+							echo '<form method="post" action="all_users.php?remove_rights_user_id='.$user_id.'">
+									<input type="submit" class="btn btn-primary background_bc1" value="Remove" id="btn-remove_admin_rights" name="btn-remove_admin_rights">
+								</form>
+						  	';
+						}
+						echo '</td>
 									<td>
-										<form method="post" action="users_of_ride.php?schedule_id='.$schedule_id.'">
-											<input type="submit" class="btn btn-primary background_bc1" value="Users" id="btn-display_users" name="btn-display_users">
+										<form method="post" action="users_rides_admin.php?user_id_rides='.$user_id.'">
+											<input type="submit" class="btn btn-primary background_bc1" value="Rides" id="btn-users_rides" name="btn-users_rides">
 										</form>
 									</td>
+
 								</tr>';
 			  		}
   				}
