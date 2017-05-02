@@ -53,7 +53,7 @@ function createSeat(seat) {
             selectedSeats.remove(seat.number);
             alertMusicalChairs(seat);
         }
-        targetDOM.attr('data-original-title', 'Seat taken');
+        targetDOM.attr('data-original-title', 'Seat No. '+seat.number+' is already taken.');
         targetDOM.attr('data-content', 'Please pick another seat.');
         pictureDOM.attr('src', "./pictures/seat_company_purple.svg");
 
@@ -78,17 +78,17 @@ function alertMusicalChairs(seat) {
     console.log('seat snatched away row: '+seat.row+', column: '+seat.col);
 }
 function deselectSeat(seat, pictureDOM, parentDOM) {
-    parentDOM.attr('data-original-title', 'Seat available');
+    parentDOM.attr('data-original-title', 'Seat No. '+seat.number+' is available.');
     parentDOM.attr('data-content', 'Price: € '+getPrice(seat.discount));
     pictureDOM.attr('src', "./pictures/seat_green.svg");
-    console.log('deselect seat row: '+seat.row+', column: '+seat.col);
+    //console.log('deselect seat row: '+seat.row+', column: '+seat.col);
 }
 
 function selectSeat(seat, pictureDOM, parentDOM) {
-    parentDOM.attr('data-original-title', 'Seat selected');
+    parentDOM.attr('data-original-title', 'Seat No. '+seat.number+' is selected.');
     parentDOM.attr('data-content', 'Price: € '+getPrice(seat.discount));
     pictureDOM.attr('src', "./pictures/seat_blue.svg");
-    console.log('select seat row: '+seat.row+', column: '+seat.col);
+    //console.log('select seat row: '+seat.row+', column: '+seat.col);
 }
 
 function toggleSeat(seat, pictureDOM, parentDOM) {
@@ -112,11 +112,11 @@ function updateSeats() {
     $.getJSON('get_seats.php?schedule_id='+scheduleId, function (bus) {
         basePrice = bus.price;
         createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, true);
-        console.log('There are '+bus.seats.length+' seats in this bus.');
+        //console.log('There are '+bus.seats.length+' seats in this bus.');
         bus.seats.forEach(function (seat) {
             createSeat(seat);
         });
-        console.log('updated seats.');
+        //console.log('updated seats.');
         $('.diagram-col').popover({ trigger: "hover" });
         if (currentPopOverParentId) {
             $('#'+currentPopOverParentId).popover('show');
@@ -125,6 +125,47 @@ function updateSeats() {
     });
 }
 
+function showMessage(message) {
+    var mainDOM = $('#seat-picker');
+    mainDOM.empty();
+    var reserveMessageBoxDOM = $('<div class="alert background_bc1 color_bc3">');
+    var reserveMessageTextDOM = $('<h3>').appendTo(reserveMessageBoxDOM);
+    reserveMessageTextDOM.text(message);
+    mainDOM.append(reserveMessageBoxDOM);
+}
+
+$('#btn-reserve_seats').click(function () {
+    $.ajax({
+        url: 'book_ride.php',
+        dataType: 'json',
+        type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            'schedule': scheduleId,
+            'seats': Array.from(selectedSeats)
+        }),
+        processData: false,
+        statusCode: {
+            400: function (response) {
+                // for 400 responses the data is contained within the responseJSON property.
+                var message = response.responseJSON.message;
+                showMessage(message);
+            },
+            409: function (response) {
+                 // for 400 responses the data is contained within the responseJSON property.
+                var message = response.responseJSON.message;
+                showMessage(message);
+
+
+            },
+            201: function (response) {
+                // for 2XX responses the data is contained right in the object.
+                var message = response.message;
+                showMessage(message);
+            }
+        }
+    });
+});
 
 
 $(document).ready(function () {

@@ -203,7 +203,7 @@ require_once('includes/promo.php');
 
 				 ?>
 				<!-- seat picker -->
-				<div class="<?php echo $hidden; ?>">
+				<div class="<?php echo $hidden; ?>" id="seat-picker">
 					
 	                <div class="col-xs-12 margin-top">
 	                    <h4 class="color_bc1">Please pick your seat:</h4>
