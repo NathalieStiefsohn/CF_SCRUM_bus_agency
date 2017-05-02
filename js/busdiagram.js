@@ -126,12 +126,11 @@ function updateSeats() {
 }
 
 function showMessage(message) {
-    var mainDOM = $('#seat-picker');
-    mainDOM.empty();
-    var reserveMessageBoxDOM = $('<div class="alert background_bc1 color_bc3">');
+    var mainDOM = $('#booking_heading');
+    var reserveMessageBoxDOM = $('<div class="col-xs-12 alert" id="alert_booking">');
     var reserveMessageTextDOM = $('<h3>').appendTo(reserveMessageBoxDOM);
     reserveMessageTextDOM.text(message);
-    mainDOM.append(reserveMessageBoxDOM);
+    mainDOM.after(reserveMessageBoxDOM);
 }
 
 $('#btn-reserve_seats').click(function () {
@@ -149,12 +148,17 @@ $('#btn-reserve_seats').click(function () {
             400: function (response) {
                 // for 400 responses the data is contained within the responseJSON property.
                 var message = response.responseJSON.message;
+                $('#alert_booking').delete();
                 showMessage(message);
+                $('#alert_booking').addClass('alert-danger');
+
             },
             409: function (response) {
                  // for 400 responses the data is contained within the responseJSON property.
                 var message = response.responseJSON.message;
+                $('#alert_booking').delete();
                 showMessage(message);
+                $('#alert_booking').addClass('alert-danger');
 
 
             },
@@ -162,6 +166,9 @@ $('#btn-reserve_seats').click(function () {
                 // for 2XX responses the data is contained right in the object.
                 var message = response.message;
                 showMessage(message);
+                $('#alert_booking').addClass('alert-success');
+                $('#seat-picker').empty();
+
             }
         }
     });

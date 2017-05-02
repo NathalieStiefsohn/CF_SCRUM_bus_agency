@@ -69,7 +69,7 @@ require_once('includes/header.php');
 		<?php
 require_once('includes/promo.php');
 		?>
-				<div class="col-xs-12">
+				<div class="col-xs-12" id="booking_heading">
 					<h3 class="brandfont text-center color_bc1">
 						Booking
 					</h3>
