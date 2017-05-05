@@ -2,6 +2,7 @@
 
 var selectedSeats = new Set();
 var basePrice;
+var breakPointWidth = 768;
 
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -9,7 +10,7 @@ $.urlParam = function(name){
 };
 
 var scheduleId = $.urlParam('schedule_id');
-
+var vertical = true;
 function getPrice(discount) {
     return (basePrice * (1-discount)).toFixed(2);
 }
@@ -47,7 +48,10 @@ function createSeat(seat) {
         "rel": "popover",
         "data-placement": "bottom"
     });
-    var pictureDOM = $('<img class="seat-image rotateimg270" src="./pictures/seat.svg">');
+    var pictureDOM = $('<img class="seat-image" src="./pictures/seat.svg">');
+    if (!vertical) {
+        pictureDOM.addClass('rotateimg270')
+    }
     if (seat.booked) {
         if (selectedSeats.has(seat.number)) {
             selectedSeats.delete(seat.number);
@@ -111,17 +115,17 @@ function updateSeats() {
     }
     $.getJSON('get_seats.php?schedule_id='+scheduleId, function (bus) {
         basePrice = bus.price;
-        createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, true);
+        createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, !vertical);
         //console.log('There are '+bus.seats.length+' seats in this bus.');
         bus.seats.forEach(function (seat) {
-            createSeat(seat);
+            createSeat(seat, vertical);
         });
         //console.log('updated seats.');
         $('.diagram-col').popover({ trigger: "hover" });
         if (currentPopOverParentId) {
             $('#'+currentPopOverParentId).popover('show');
         }
-        setTimeout(updateSeats, 10000);
+        setTimeout(updateSeats, 1000000);
     });
 }
 
@@ -177,8 +181,21 @@ $('#btn-reserve_seats').click(function () {
 
 $(document).ready(function () {
         if (scheduleId > 0) {
-            updateSeats();
+            drawResponsive();
         }
     }
 );
+
+function drawResponsive() {
+    if ($(window).width() > breakPointWidth) {
+        vertical = false;
+        updateSeats();
+    } else {
+        vertical = true;
+        updateSeats();
+    }
+}
+$(window).resize(function (event) {
+    drawResponsive();
+});
 
