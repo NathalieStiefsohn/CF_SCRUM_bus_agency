@@ -7,10 +7,34 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    width="119.89798"
    height="119.99088"
-   id="svg2">
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="seat_blue.svg">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="3094"
+     inkscape:window-height="1761"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="1.9668161"
+     inkscape:cx="59.94899"
+     inkscape:cy="59.995441"
+     inkscape:window-x="106"
+     inkscape:window-y="39"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
   <defs
      id="defs4" />
   <metadata
@@ -21,12 +45,12 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     transform="translate(-771.80288,-705.88394)"
+     transform="matrix(1,0,0,0.8,-771.80288,-540.70897)"
      id="layer1"
      style="fill:#1b789f;fill-opacity:1">
     <g
