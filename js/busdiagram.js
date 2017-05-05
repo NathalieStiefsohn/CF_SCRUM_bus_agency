@@ -187,7 +187,7 @@ $(document).ready(function () {
 );
 
 function drawResponsive() {
-    if ($(window).width() > breakPointWidth) {
+    if (window.innerWidth >= breakPointWidth) {
         vertical = false;
         updateSeats();
     } else {
