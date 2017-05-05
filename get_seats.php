@@ -37,18 +37,27 @@ $busQuery->execute();
 $busData = $busQuery->get_result()->fetch_assoc();
 
 $seatDataQuery = $con->prepare(<<<'SQL'
-SELECT sea.num AS number, discount_id, dis.rate AS discount, row, col, res.id IS NOT NULL AS booked FROM schedule AS sch
+SELECT sea.num AS number, discount_id, dis.rate AS discount, row, col, res.res_id IS NOT NULL AS booked FROM schedule AS sch
 INNER JOIN route AS rou ON sch.route_id = rou.id
 INNER JOIN bus AS bu ON rou.bus_id = bu.id
 INNER JOIN model AS mo ON bu.model_id = mo.id
 INNER JOIN seat AS sea ON mo.id = sea.model_id
 INNER JOIN discount as dis ON sea.discount_id = dis.id
-LEFT JOIN reservation AS res ON sea.id = res.seat_id
+LEFT JOIN (SELECT reservation.id AS res_id, reservation.seat_id FROM schedule INNER JOIN booking ON schedule.id = booking.schedule_id
+INNER JOIN reservation ON booking.id = reservation.booking_id WHERE schedule.id = ?) AS res ON sea.id = res.seat_id
 WHERE sch.id = ?
 ;
 SQL
 );
 
+$seatBookedQuery = $con->prepare(<<<'SQL'
+SELECT * FROM schedule AS sch
+INNER JOIN booking ON sch.id = booking.schedule_id
+INNER JOIN reservation ON booking.id = reservation.booking_id
+WHERE sch.id = ?
+;
+SQL
+);
 $addReservationQuery = $con->prepare(<<<'SQL'
 INSERT INTO reservation (booking_id, seat_id) VALUES (?, ?);
 SQL
@@ -65,7 +74,7 @@ SQL
 
 
 
-$seatDataQuery->bind_param('i', $scheduleID);
+$seatDataQuery->bind_param('ii', $scheduleID, $scheduleID);
 $seatDataQuery->execute();
 $seatDataResult = $seatDataQuery->get_result();
 $seatData = [];

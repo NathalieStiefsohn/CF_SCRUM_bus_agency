@@ -10,14 +10,16 @@ if( !isset($_SESSION['user']) ) {
 header("Content-Type: application/json; charset=UTF-8");
 
 $getSeatsFromNumberAndScheduleQuery = $con->prepare(<<<'SQL'
-SELECT seat.id as seat_id, booking.id IS NOT NULL AS booked FROM seat 
-INNER JOIN model ON seat.model_id = model.id
-INNER JOIN bus ON model.id = bus.model_id
-INNER JOIN route ON bus.id = route.bus_id
-INNER JOIN schedule ON route.id = schedule.route_id
-LEFT JOIN reservation ON seat.id = reservation.seat_id
-LEFT JOIN booking ON reservation.booking_id = booking.id
-WHERE num = ? AND schedule.id = ?;
+SELECT sea.num AS number, discount_id, dis.rate AS discount, row, col, res.res_id IS NOT NULL AS booked FROM schedule AS sch
+INNER JOIN route AS rou ON sch.route_id = rou.id
+INNER JOIN bus AS bu ON rou.bus_id = bu.id
+INNER JOIN model AS mo ON bu.model_id = mo.id
+INNER JOIN seat AS sea ON mo.id = sea.model_id
+INNER JOIN discount as dis ON sea.discount_id = dis.id
+LEFT JOIN (SELECT reservation.id AS res_id, reservation.seat_id FROM schedule INNER JOIN booking ON schedule.id = booking.schedule_id
+INNER JOIN reservation ON booking.id = reservation.booking_id WHERE schedule.id = ?) AS res ON sea.id = res.seat_id
+WHERE sch.id = ? AND sea.num = ?
+;
 SQL
 );
 
@@ -55,7 +57,7 @@ function getSeats($seatNums, $scheduleId) {
     global $getSeatsFromNumberAndScheduleQuery;
     $seats = [];
     foreach ($seatNums as $seatNum) {
-        $getSeatsFromNumberAndScheduleQuery->bind_param('ii', $seatNum, $scheduleId);
+        $getSeatsFromNumberAndScheduleQuery->bind_param('iii', $scheduleId, $scheduleId, $seatNum);
         $getSeatsFromNumberAndScheduleQuery->execute();
         if (!($result = $getSeatsFromNumberAndScheduleQuery->get_result()))
         {

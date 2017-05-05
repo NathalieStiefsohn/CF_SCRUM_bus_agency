@@ -148,7 +148,7 @@ $('#btn-reserve_seats').click(function () {
             400: function (response) {
                 // for 400 responses the data is contained within the responseJSON property.
                 var message = response.responseJSON.message;
-                $('#alert_booking').delete();
+                $('#alert_booking').remove();
                 showMessage(message);
                 $('#alert_booking').addClass('alert-danger');
 
@@ -156,7 +156,7 @@ $('#btn-reserve_seats').click(function () {
             409: function (response) {
                  // for 400 responses the data is contained within the responseJSON property.
                 var message = response.responseJSON.message;
-                $('#alert_booking').delete();
+                $('#alert_booking').remove();
                 showMessage(message);
                 $('#alert_booking').addClass('alert-danger');
 
