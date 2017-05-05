@@ -50,7 +50,7 @@ function createSeat(seat) {
     var pictureDOM = $('<img class="seat-image rotateimg270" src="./pictures/seat.svg">');
     if (seat.booked) {
         if (selectedSeats.has(seat.number)) {
-            selectedSeats.remove(seat.number);
+            selectedSeats.delete(seat.number);
             alertMusicalChairs(seat);
         }
         targetDOM.attr('data-original-title', 'Seat No. '+seat.number+' is already taken.');
