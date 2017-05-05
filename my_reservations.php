@@ -16,7 +16,7 @@ if(isset($_GET['reservation_id'])){
 	$reservation_id = $_GET['reservation_id'];
 	if (!empty($reservation_id)){
 
-		$delete_query="DELETE FROM RESERVATION WHERE reservation.id=".$reservation_id;
+		$delete_query="DELETE FROM reservation WHERE reservation.id=".$reservation_id;
 		$res_delete = mysqli_query($con, $delete_query);
 		if ($res_delete) {
 			    $errTyp = "alert-success";
@@ -27,6 +27,7 @@ if(isset($_GET['reservation_id'])){
 			   } else {
 			    $errTyp = "alert-danger";
 			    $errMSG = "Something went wrong, try again later...";
+			    //$errMSG.= mysqli_error($con);
 			    // echo $errMSG;
 			   }
 	}
