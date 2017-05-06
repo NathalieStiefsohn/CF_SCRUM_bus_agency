@@ -152,14 +152,18 @@ require_once('includes/promo.php');
 								      	
 								        <th>Departure Time</th>
 								        <th>Duration</th>
-								        
+								        <th>Seats available</th>
 								        <th></th>
 								      </tr>
 								    </thead>
 								    <tbody>
 				    		';
+                            global $availableSchedulesQuery;
+                            $availableSchedulesQuery->bind_param('ss', $route, $dep_date);
+                            $availableSchedulesQuery->execute();
+                            $availableSchedulesResult = $availableSchedulesQuery->get_result();
 
-							while($row_select_schedule = mysqli_fetch_array($res_select_schedule)){
+							while($row_select_schedule = $availableSchedulesResult->fetch_assoc()){
 					  			$schedule_id = $row_select_schedule['schedule_id'];
 					  			$destination = $row_select_schedule['destination']; 
 					  			$schedule_id = $row_select_schedule['schedule_id']; 
@@ -168,7 +172,8 @@ require_once('includes/promo.php');
 					  			$duration = date('h:i', strtotime($duration1)); 
 
 					  			$departure1 = $row_select_schedule['departure_time'];
-					  			$departure = date('g:ia', strtotime($departure1)); 
+					  			$departure = date('g:ia', strtotime($departure1));
+					  			$availableSeatsCount = $row_select_schedule['available'];
 
 
 
@@ -177,7 +182,8 @@ require_once('includes/promo.php');
 									
 									<td>'.$departure.'</td>
 									<td>'.$duration.'</td>
-									
+								    <td>'.$availableSeatsCount.'</td>
+
 									<td>
 										<form method="post" action="reservation.php?schedule_id='.$schedule_id.'">
 											<input type="submit" value="Select" class="btn background_bc1 color_bc3">
