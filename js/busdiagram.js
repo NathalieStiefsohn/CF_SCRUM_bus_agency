@@ -115,6 +115,7 @@ function updateSeats() {
     }
     $.getJSON('get_seats.php?schedule_id='+scheduleId, function (bus) {
         basePrice = bus.price;
+        $('#booking_heading').find('h3').text(bus.destination);
         createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, !vertical);
         //console.log('There are '+bus.seats.length+' seats in this bus.');
         bus.seats.forEach(function (seat) {
@@ -125,16 +126,17 @@ function updateSeats() {
         if (currentPopOverParentId) {
             $('#'+currentPopOverParentId).popover('show');
         }
-        setTimeout(updateSeats, 1000000);
+        setTimeout(updateSeats, 10000);
     });
 }
 
 function showMessage(message) {
     var mainDOM = $('#booking_heading');
-    var reserveMessageBoxDOM = $('<div class="col-xs-12 alert" id="alert_booking">');
+    var columnDom = $('<div class="col-xs-12">');
+    var reserveMessageBoxDOM = $('<div class="alert" id="alert_booking">').appendTo(columnDom);
     var reserveMessageTextDOM = $('<h3>').appendTo(reserveMessageBoxDOM);
     reserveMessageTextDOM.text(message);
-    mainDOM.after(reserveMessageBoxDOM);
+    mainDOM.after(columnDom);
 }
 
 $('#btn-reserve_seats').click(function () {
@@ -187,13 +189,9 @@ $(document).ready(function () {
 );
 
 function drawResponsive() {
-    if (window.innerWidth >= breakPointWidth) {
-        vertical = false;
-        updateSeats();
-    } else {
-        vertical = true;
-        updateSeats();
-    }
+    vertical = window.innerWidth < breakPointWidth;
+    updateSeats();
+
 }
 $(window).resize(function (event) {
     drawResponsive();

@@ -117,9 +117,7 @@ require_once('includes/promo.php');
 						</div>
 					</div>
 				</form>
-				<div class="col-xs-12">
-					<hr>
-				</div>
+
 				<!-- list of schedules -->
 
 				<?php 
@@ -205,8 +203,7 @@ require_once('includes/promo.php');
 				<!-- seat picker -->
 				<div class="<?php echo $hidden; ?>" id="seat-picker">
 					
-	                <div class="col-xs-12 margin-top">
-	                    <h4 class="color_bc1">Please pick your seat:</h4>
+	                <div class="col-xs-12">
 
 	                    <div class="panel panel-default">
 	                        <div class="seats-diagram"></div>
@@ -215,7 +212,6 @@ require_once('includes/promo.php');
                 
 	                <div class="col-xs-12">
 	                    <!-- SUBMIT -->
-	                    <hr />
 	                    <button type="submit" id="btn-reserve_seats" class="btn btn-block btn-primary background_bc1" name="btn-change_data">Book seats</button>
 	                </div>
                 </div>

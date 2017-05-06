@@ -49,7 +49,13 @@ WHERE sch.id = ?
 ;
 SQL
 );
-
+$scheduleRouteDestinationQuery = $con->prepare(<<<'SQL'
+SELECT rou.destination FROM schedule as sch 
+INNER JOIN route AS rou ON sch.route_id = rou.id
+WHERE sch.id = ?
+;
+SQL
+);
 $seatBookedQuery = $con->prepare(<<<'SQL'
 SELECT * FROM schedule AS sch
 INNER JOIN booking ON sch.id = booking.schedule_id
@@ -78,9 +84,14 @@ $seatDataQuery->bind_param('ii', $scheduleID, $scheduleID);
 $seatDataQuery->execute();
 $seatDataResult = $seatDataQuery->get_result();
 $seatData = [];
+$scheduleRouteDestinationQuery->bind_param('i', $scheduleID);
+$scheduleRouteDestinationQuery->execute();
+$scheduleRouteDestinationResult = $scheduleRouteDestinationQuery->get_result();
+$routeDestination = $scheduleRouteDestinationResult->fetch_assoc();
 while ($seat = $seatDataResult->fetch_assoc()) {
     $seat['booked'] = (bool)$seat['booked'];
     $seatData[] = $seat;
 }
+$busData['destination'] = $routeDestination['destination'];
 $busData['seats'] = $seatData;
 echo json_encode($busData);
