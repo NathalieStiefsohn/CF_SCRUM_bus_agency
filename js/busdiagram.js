@@ -3,6 +3,7 @@
 var selectedSeats = new Set();
 var basePrice;
 var breakPointWidth = 768;
+var busData;
 
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -106,28 +107,33 @@ function toggleSeat(seat, pictureDOM, parentDOM) {
     }
     parentDOM.popover('show');
 }
-
-function updateSeats() {
-    // FIXME: replace popover if there is a current one active
+function drawSeats() {
+    basePrice = busData.price;
+    $('#booking_heading').find('h3').text(busData.destination);
+    createSeatGrid($('.seats-diagram'), busData.rows, busData.columns, !vertical);
+    //console.log('There are '+busData.seats.length+' seats in this busData.');
+    busData.seats.forEach(function (seat) {
+        createSeat(seat, vertical);
+    });
     var currentPopOver = $('.popover')[0];
     if (currentPopOver) {
         var currentPopOverParentId = $(currentPopOver).parent().attr('id');
     }
+    //console.log('updated seats.');
+    $('.diagram-col').popover({ trigger: "hover" });
+    if (currentPopOverParentId) {
+        $('#'+currentPopOverParentId).popover('show');
+    }
+}
+function updateSeats() {
+    // FIXME: replace popover if there is a current one active
+
     $.getJSON('get_seats.php?schedule_id='+scheduleId, function (bus) {
-        basePrice = bus.price;
-        $('#booking_heading').find('h3').text(bus.destination);
-        createSeatGrid($('.seats-diagram'), bus.rows, bus.columns, !vertical);
-        //console.log('There are '+bus.seats.length+' seats in this bus.');
-        bus.seats.forEach(function (seat) {
-            createSeat(seat, vertical);
-        });
-        //console.log('updated seats.');
-        $('.diagram-col').popover({ trigger: "hover" });
-        if (currentPopOverParentId) {
-            $('#'+currentPopOverParentId).popover('show');
-        }
-        setTimeout(updateSeats, 10000);
+        busData = bus;
+        drawResponsive();
     });
+    setTimeout(updateSeats, 10000);
+
 }
 
 function showMessage(message) {
@@ -183,14 +189,14 @@ $('#btn-reserve_seats').click(function () {
 
 $(document).ready(function () {
         if (scheduleId > 0) {
-            drawResponsive();
+            updateSeats();
         }
     }
 );
 
 function drawResponsive() {
     vertical = window.innerWidth < breakPointWidth;
-    updateSeats();
+    drawSeats(busData);
 
 }
 $(window).resize(function (event) {
