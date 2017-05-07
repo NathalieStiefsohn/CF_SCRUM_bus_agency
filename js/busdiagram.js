@@ -137,8 +137,9 @@ function updateSeats() {
 }
 
 function showMessage(message) {
+    $('.booking_message').remove();
     var mainDOM = $('#booking_heading');
-    var columnDom = $('<div class="col-xs-12">');
+    var columnDom = $('<div class="col-xs-12 booking_message">');
     var reserveMessageBoxDOM = $('<div class="alert" id="alert_booking">').appendTo(columnDom);
     var reserveMessageTextDOM = $('<h3>').appendTo(reserveMessageBoxDOM);
     reserveMessageTextDOM.text(message);
@@ -160,7 +161,6 @@ $('#btn-reserve_seats').click(function () {
             400: function (response) {
                 // for 400 responses the data is contained within the responseJSON property.
                 var message = response.responseJSON.message;
-                $('#alert_booking').remove();
                 showMessage(message);
                 $('#alert_booking').addClass('alert-danger');
 
@@ -168,7 +168,6 @@ $('#btn-reserve_seats').click(function () {
             409: function (response) {
                  // for 400 responses the data is contained within the responseJSON property.
                 var message = response.responseJSON.message;
-                $('#alert_booking').remove();
                 showMessage(message);
                 $('#alert_booking').addClass('alert-danger');
 
