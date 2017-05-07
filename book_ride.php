@@ -10,7 +10,7 @@ if( !isset($_SESSION['user']) ) {
 header("Content-Type: application/json; charset=UTF-8");
 
 $getSeatsFromNumberAndScheduleQuery = $con->prepare(<<<'SQL'
-SELECT sea.num AS number, discount_id, dis.rate AS discount, row, col, res.res_id IS NOT NULL AS booked FROM schedule AS sch
+SELECT sea.id AS seat_id, sea.num AS number, discount_id, dis.rate AS discount, row, col, res.res_id IS NOT NULL AS booked FROM schedule AS sch
 INNER JOIN route AS rou ON sch.route_id = rou.id
 INNER JOIN bus AS bu ON rou.bus_id = bu.id
 INNER JOIN model AS mo ON bu.model_id = mo.id
@@ -117,7 +117,7 @@ if (isset($_POST)) {
     error_log('User wants to book seats: '.json_encode($_SESSION['user']).' '.json_encode($data));
 
     try {
-        $seatIds = getSeats($data['seats'], $data['schedule']);
+        $seats = getSeats($data['seats'], $data['schedule']);
     } catch (UnexpectedValueException $exception) {
         echo json_encode(['message' => $exception->getMessage()]);
         http_response_code(400);
@@ -126,11 +126,11 @@ if (isset($_POST)) {
 
     $paymentId = getPaymentId();
     $bookingId = addBooking($paymentId, $data['schedule']);
-    foreach ($data['seats'] as $seat) {
-        $reservationId = addReservation($bookingId, $seat);
+    foreach ($seats as $seat) {
+        $reservationId = addReservation($bookingId, $seat['seat_id']);
     }
 
-    echo json_encode(['message' => 'Seats booked.', 'seats' => $seatIds]);
+    echo json_encode(['message' => 'Seats booked.', 'seats' => $seats]);
 
     http_response_code(201);
     exit();
