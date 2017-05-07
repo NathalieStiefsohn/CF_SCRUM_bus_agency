@@ -1,9 +1,8 @@
-
 .diagram-row {
     display: flex;
 }
 .diagram-col {
-    width: 120px;
+    width: 240px;
     height: auto;
 }
 
